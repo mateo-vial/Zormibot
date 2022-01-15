@@ -1,0 +1,26 @@
+--------- Usage ---------
+{0}ajouterjoueur <draps> <pseudo> <prénom> <twitter> <fc> <anniv> <num> <exteams>
+
+alias : 
+{0}aj
+
+------- Arguments -------
+<draps> : Liste des drapeaux (2 lettres) séparés par une virgule
+	Exemple : fr,es,it
+<pseudo> : Pseudo du joueur
+	Exemple : Gab
+<prénom> : Prénom du joueur
+	Exemple : Gabriel
+<twitter> : Twitter du joueur sans le @
+	Exemple : sltcgabz
+<fc> : FC du joueur sans séparateurs
+	Exemple : 123412341234
+<anniv> : Date de naissance du joueur au format JJMMAAAA
+	Exemple : 01012000
+<num> : Numéro du joueur sans séparateurs
+	Exemple : 0607080910
+<exteams> : Liste des tags des ex-teams du joueur séparés par une virgule
+	Exemple : sтс,ὡƒ
+
+------ Description ------
+Ajoute un joueur au registre.
