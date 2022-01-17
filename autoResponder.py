@@ -29,6 +29,9 @@ class MyCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+
+        rng = random.randrange(10000)
+
         # print('Message from {0.author} in channel id {0.channel.id} server id {0.guild.id} : {0.content}'.format(message))
         if message.author.id == self.bot.user.id:
             return
@@ -39,7 +42,7 @@ class MyCog(commands.Cog):
             await message.channel.send('{0}, ne dérange pas le boss.'.format(mention))
 
         # Bob l'éponge
-        if message.author.id == 718534355210862734 and random.randrange(10) == 0:
+        if rng<25:
             output = ''
             for char in message.content:
                 if random.randrange(2) == 0:
@@ -53,16 +56,14 @@ class MyCog(commands.Cog):
             await message.channel.send(file = discord.File('tecrisbcp/' + random.choice(os.listdir('tecrisbcp'))))
 
         # PTG
-        if not message.author.bot:
-            rand_tg = random.randrange(180)
-            if rand_tg == 1:
-                await message.channel.send('Pitié ta gueule {0}'.format(message.author.name))
+        if not message.author.bot and rng<100:
+            await message.channel.send('Pitié ta gueule {0}'.format(message.author.name))
 
         # Feur
         if ''.join(c for c in message.content if c.isalpha()).lower().endswith('quoi'):
             await message.channel.send(file = discord.File('feur/' + random.choice(os.listdir('feur'))))
 
-        
+        # Special
         nelist = ['né', 'nez', 'nait', 'ner', 'nés', 'née', 'nées', 'nais', 'naient', 'nai', 'ney']
         if any([''.join(c for c in message.content if c.isalpha()).lower().endswith(ne) for ne in nelist]):
             await message.channel.send('gro', delete_after = 60)
