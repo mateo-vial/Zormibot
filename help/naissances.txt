@@ -1,0 +1,8 @@
+--------- Usage ---------
+{0}naissances
+
+------- Arguments -------
+Aucun
+
+------ Description ------
+Affiche la liste des dates de naissances ordonnée des joueurs de la team.

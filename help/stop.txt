@@ -1,0 +1,9 @@
+--------- Usage ---------
+{0}stop
+
+------- Arguments -------
+Aucun
+
+------ Description ------
+Met fin à l'exécution du bot.
+Seul le boss Zorm peut utiliser cette commande ultime.

@@ -1,0 +1,8 @@
+--------- Usage ---------
+{0}anniversaires
+
+------- Arguments -------
+Aucun
+
+------ Description ------
+Affiche la liste ordonnées des anniversaires des joueurs dans l'année

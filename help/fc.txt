@@ -1,0 +1,8 @@
+--------- Usage ---------
+{0}fc <pseudo>
+
+------- Arguments -------
+<pseudo> : pseudo du joueur tel qu'il apparaît dans la liste des joueurs (insensible à la casse)
+
+------ Description ------
+Affiche les FC de tous les joueurs correspondant au pseudo

@@ -31,7 +31,10 @@ listecommandes = [
     'supprimerjoueur', 
     'teps', 
     'swapjoueurs', 
-    'exit'
+    'stop',
+    'naissances',
+    'anniversaires',
+    'fc'
 ]
  
 with open('admin.txt', mode='r', encoding='utf-8') as f:
@@ -226,7 +229,7 @@ async def anniversaires(ctx):
 async def fc(ctx, arg):
     table = [['N°', 'Pseudo', 'FC']]
     for i, joueur in enumerate(listejoueurs):
-        if joueur.pseudo == arg:
+        if joueur.pseudo.lower() == arg.lower():
             table.append([i, joueur.pseudo, 'SW-'+'-'.join([joueur.fc[0:4], joueur.fc[4:8], joueur.fc[8:12]])])
     if len(table)==1:
         await ctx.send('Pseudo introuvable.')
