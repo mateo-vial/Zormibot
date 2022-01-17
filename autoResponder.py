@@ -5,10 +5,10 @@ from tabulate import tabulate
 import pickle
 import os
 import random
+import datetime
 from copy import copy
 
 from class_joueur import *
-from class_date import *
 
 
 class MyCog(commands.Cog):
