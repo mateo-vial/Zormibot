@@ -62,4 +62,4 @@ class MyCog(commands.Cog):
 
 # Every extension should have this function
 def setup(bot):
-    bot.add_cog(MyCog(bot))
+    bot.add_cog(MyCog(bot)) 

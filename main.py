@@ -5,10 +5,11 @@ from tabulate import tabulate
 import pickle
 import os
 import random
+import datetime
 from copy import copy
 
 from class_joueur import *
-from class_date import *
+# from class_date import *
 
 random.seed()
 
@@ -85,7 +86,7 @@ async def ajouterjoueur(ctx, *args):
             prenom = args[2],
             twitter = args[3],
             fc = args[4],
-            anniv = Date(annee = int(args[5][4:8]), mois = int(args[5][2:4]), jour = int(args[5][0:2])),
+            anniv = datetime.date(year=int(args[5][4:8]), month=int(args[5][2:4]), day=int(args[5][0:2])),
             num = args[6],
             exteams = args[7].split(',')
         ))
@@ -181,6 +182,45 @@ async def stop(ctx):
     await ctx.send('Ciao.')
     exit()
 
+@bot.command(name='naissances')
+async def naissances(ctx):
+    # Initialisation du dictionnaire
+    dict_annees = {}
+    for joueur in listejoueurs:
+        if joueur.anniv.year not in dict_annees:
+            dict_annees[joueur.anniv.year] = [joueur]
+        else:
+            dict_annees[joueur.anniv.year].append(joueur)
+
+    # Tri des valeurs du dictionnaire
+    for annee in dict_annees:
+        dict_annees[annee].sort(key = lambda joueur: joueur.anniv)
+
+    # On génère l'affiche
+    output = ':baby: Naissances```{0}```'.format('\n'.join(['{0} : {1}'.format(annee, ' > '.join([joueur.pseudo+' ('+'{:02d}/{:02d}'.format(joueur.anniv.day, joueur.anniv.month)+')' for joueur in dict_annees[annee]])) for annee in sorted(dict_annees)]))
+    
+    await ctx.send(output)
+
+@bot.command(name='anniversaires', aliases=['anniv'])
+async def anniversaires(ctx):
+    #Initialisation du dictionnaire
+    liste_mois = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin','Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+
+    dict_mois = {}
+    for i in range(12):
+        dict_mois[i+1] = []
+    
+    # Remplissage du dictionnaire
+    for joueur in listejoueurs:
+        dict_mois[joueur.anniv.month].append(joueur)
+    
+    # Tri des valeurs du dictionnaire (On se base sur l'année 2004 pour prendre en compte les 29 février)
+    for i in dict_mois:
+        dict_mois[i].sort(key = lambda joueur: datetime.date(year=2004, month=joueur.anniv.month, day=joueur.anniv.day))
+    
+    # On génère l'affiche
+    output = ':birthday: Anniversaires```\n{0}```'.format('\n'.join([' '*(9-len(liste_mois[i-1]))+liste_mois[i-1]+' : '+', '.join([joueur.pseudo+' ('+str(joueur.anniv.day)+')' for joueur in dict_mois[i]]) for i in dict_mois]))
+    await ctx.send(output)
 
 bot.run(TOKEN)
 

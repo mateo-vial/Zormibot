@@ -6,7 +6,7 @@ class Joueur():
         self.draps = draps # list of strings
 
         if pseudo != '/': self.pseudo = pseudo
-        else: self.pseudo = None
+        else: self.pseudo = prenom
 
         self.prenom = prenom # string
 
@@ -15,7 +15,7 @@ class Joueur():
 
         self.fc = fc # string of numbers
 
-        self.anniv = anniv # object Date
+        self.anniv = anniv # object datetime.date
 
         if num != '/': self.num = num
         else: self.num = None
@@ -33,7 +33,7 @@ class Joueur():
         output += ' '.join([':flag_{0}:'.format(drap) for drap in self.draps]) + ' '
         
         # écriture pseudo et prénom
-        if self.pseudo != None:
+        if self.pseudo != self.prenom:
             output += self.pseudo+'/'
         output += self.prenom
 
@@ -82,10 +82,15 @@ class Joueur():
             at_twitter = '@'+self.twitter
         except:
             at_twitter = None
+        
+        if self.pseudo != self.prenom:
+            pseud_temp = self.pseudo
+        else:
+            pseud_temp = None
 
         return [
             ', '.join(self.draps), 
-            self.pseudo, 
+            pseud_temp, 
             self.prenom, 
             at_twitter, 
             'SW-'+'-'.join([
@@ -93,7 +98,7 @@ class Joueur():
                 self.fc[4:8],
                 self.fc[8:12]
             ]), 
-            '/'.join([str(self.anniv.jour).zfill(2), str(self.anniv.mois).zfill(2), str(self.anniv.annee)]),
+            '/'.join([str(self.anniv.day).zfill(2), str(self.anniv.month).zfill(2), str(self.anniv.year)]),
             self.num,
             ', '.join(self.exteams)
         ]
