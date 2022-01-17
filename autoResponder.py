@@ -11,14 +11,6 @@ from class_joueur import *
 from class_date import *
 
 
-
-
-prefix = '$'
-lenprefix = len(prefix)
-
-listecommandes = ['hello', 'help', 'ajouterjoueur', 'listejoueurs', 'supprimerjoueur', 'teps', 'swapjoueurs', 'exit']
-
-
 class MyCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

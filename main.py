@@ -37,6 +37,10 @@ with open('admin.txt', mode='r', encoding='utf-8') as f:
     adminlist = [int(line.split()[0]) for line in f.readlines()]
     # edit admin.txt to edit admins
 
+with open('chancmd.txt', mode='r', encoding='utf-8') as f:
+    chancmdlist = [int(line.split()[0]) for line in f.readlines()]
+    # edit chancmd.txt to edit channels
+
 @bot.event
 async def on_ready():
     print("Le bot est prêt.")
@@ -72,6 +76,7 @@ async def help(ctx, *args):
 @bot.command(name='ajouterjoueur', aliases=['aj'])
 async def ajouterjoueur(ctx, *args):
     assert ctx.author.id in adminlist
+    assert ctx.channel.id in chancmdlist
     # await ctx.send('commande ajouterjoueur lancée')
     try:
         listejoueurs.append(Joueur(
@@ -99,6 +104,7 @@ async def ajouterjoueur(ctx, *args):
 @bot.command(name='supprimerjoueur', aliases=['sj'])
 async def supprimerjoueur(ctx, arg):
     assert ctx.author.id in adminlist
+    assert ctx.channel.id in chancmdlist
     try:
         ind_a_supprimer = int(arg)
         if listejoueurs[ind_a_supprimer].pseudo == None:
@@ -138,6 +144,7 @@ async def _listejoueurs(ctx): #underscore because listejoueurs is already the li
 
 @bot.command(name='swapjoueurs', aliases=['swapj'])
 async def swapjoueurs(ctx, *args):
+    assert ctx.channel.id in chancmdlist
     assert ctx.author.id in adminlist
     try:
         i, j = int(args[0]), int(args[1])
@@ -149,6 +156,7 @@ async def swapjoueurs(ctx, *args):
 @bot.command(name='deplacejoueur', aliases=['dj'])
 async def deplacejoueur(ctx, *args):
     assert ctx.author.id in adminlist
+    assert ctx.channel.id in chancmdlist
     try:
         # await ctx.send('deplacejoueur en cours')
         i, j = int(args[0]), int(args[1])
