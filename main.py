@@ -222,6 +222,18 @@ async def anniversaires(ctx):
     output = ':birthday: Anniversaires```\n{0}```'.format('\n'.join([' '*(9-len(liste_mois[i-1]))+liste_mois[i-1]+' : '+', '.join([joueur.pseudo+' ('+str(joueur.anniv.day)+')' for joueur in dict_mois[i]]) for i in dict_mois]))
     await ctx.send(output)
 
+@bot.command(name='fc')
+async def fc(ctx, arg):
+    table = [['N°', 'Pseudo', 'FC']]
+    for i, joueur in enumerate(listejoueurs):
+        if joueur.pseudo == arg:
+            table.append([i, joueur.pseudo, 'SW-'+'-'.join([joueur.fc[0:4], joueur.fc[4:8], joueur.fc[8:12]])])
+    if len(table)==1:
+        await ctx.send('Pseudo introuvable.')
+        return
+    output = tabulate(table, headers='firstrow', tablefmt='simple')
+    await ctx.send('```{0}```'.format(output), delete_after=30)
+
 bot.run(TOKEN)
 
 
