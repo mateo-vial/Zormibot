@@ -226,10 +226,10 @@ async def anniversaires(ctx):
     await ctx.send(output)
 
 @bot.command(name='fc')
-async def fc(ctx, arg):
+async def fc(ctx, *args):
     table = [['N°', 'Pseudo', 'FC']]
     for i, joueur in enumerate(listejoueurs):
-        if joueur.pseudo.lower() == arg.lower():
+        if joueur.pseudo.lower() in [arg.lower() for arg in args]:
             table.append([i, joueur.pseudo, 'SW-'+'-'.join([joueur.fc[0:4], joueur.fc[4:8], joueur.fc[8:12]])])
     if len(table)==1:
         await ctx.send('Pseudo introuvable.')
