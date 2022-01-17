@@ -32,7 +32,7 @@ listecommandes = [
     'swapjoueurs', 
     'exit'
 ]
-
+ 
 with open('admin.txt', mode='r', encoding='utf-8') as f:
     adminlist = [int(line.split()[0]) for line in f.readlines()]
     # edit admin.txt to edit admins
