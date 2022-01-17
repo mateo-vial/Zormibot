@@ -1,7 +1,7 @@
 # Zormibot
 This is Zormibot, my first big project and first Discord bot.
 ## Start
-Start by creating a `token.txt` file inside the repository and paste your bot's token in it.
+Start by creating a `token.txt` file inside the repository and paste your bot's token in it. This file is mandatory, or else the bot will not function
 
 Also create a `admin.txt` file containing the discord IDs of users who can execute "dangerous" commands.
 
