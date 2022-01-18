@@ -30,8 +30,7 @@ class MyCog(commands.Cog):
 
         # Mentions Zorm
         if 135495101496426496 in [user.id for user in message.mentions] and message.author.id != 135495101496426496:
-            mention = message.author.mention
-            await message.channel.send('{0}, ne dérange pas le boss.'.format(mention))
+            await message.channel.send('{0.author.name}, ne dérange pas le boss.'.format(message))
 
         # Bob l'éponge
         if rng<25:
