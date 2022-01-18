@@ -22,10 +22,8 @@ class MyCog(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        rng = random.randrange(10000)
-
         # print('Message from {0.author} in channel id {0.channel.id} server id {0.guild.id} : {0.content}'.format(message))
-        if message.author.id == self.bot.user.id:
+        if message.author.bot:
             return
 
         # Mentions Zorm
@@ -33,7 +31,7 @@ class MyCog(commands.Cog):
             await message.channel.send('{0.author.name}, ne dérange pas le boss.'.format(message))
 
         # Bob l'éponge
-        if rng<25:
+        if random.randrange(300) == 0:
             output = ''
             for char in message.content:
                 if random.randrange(2) == 0:
@@ -47,7 +45,7 @@ class MyCog(commands.Cog):
             await message.channel.send(file = discord.File('tecrisbcp/' + random.choice(os.listdir('tecrisbcp'))))
 
         # PTG
-        if not message.author.bot and rng<100:
+        if random.randrange(100) == 0:
             await message.channel.send('Pitié ta gueule {0}'.format(message.author.name))
 
         # Feur
