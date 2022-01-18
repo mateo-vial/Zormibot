@@ -1,0 +1,14 @@
+--------- Usage ---------
+{0}modifjoueur <N°> <attribut> <valeur>
+
+alias :
+$mj
+
+------- Arguments -------
+<N°> : Numéro du joueur dans la liste des joueurs
+<attribut> : Attribut à modifier
+	Exemple : <draps|pseudo|prenom|twitter|fc|anniv|num|exteams>
+<valeur> : Valeur de l'attribut à modifier au format brut (twitter sans le @, FC et anniv sans séparateurs, etc)
+
+------ Description ------
+Modifie un attribut spécifié d'un joueur par la valeur spécifiée.

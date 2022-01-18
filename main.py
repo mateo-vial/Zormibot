@@ -9,7 +9,6 @@ import datetime
 from copy import copy
 
 from class_joueur import *
-# from class_date import *
 
 random.seed()
 
@@ -34,7 +33,8 @@ listecommandes = [
     'stop',
     'naissances',
     'anniversaires',
-    'fc'
+    'fc',
+    'modifjoueur'
 ]
  
 with open('admin.txt', mode='r', encoding='utf-8') as f:
@@ -81,7 +81,6 @@ async def help(ctx, *args):
 async def ajouterjoueur(ctx, *args):
     assert ctx.author.id in adminlist
     assert ctx.channel.id in chancmdlist
-    # await ctx.send('commande ajouterjoueur lancée')
     try:
         listejoueurs.append(Joueur(
             draps = args[0].split(','),
@@ -139,7 +138,7 @@ async def _listejoueurs(ctx): #underscore because listejoueurs is already the li
     output = tabulate(table, headers='firstrow', tablefmt='simple')
     try:
         await ctx.send('```{0}```'.format(output), delete_after=30)
-    except: # If output > 2000 or whatever 
+    except: # if output too long
         if os.path.isfile('lj.txt'):
             os.remove('lj.txt')
         with open('lj.txt', mode='w', encoding='utf-8') as f:
@@ -162,7 +161,6 @@ async def deplacejoueur(ctx, *args):
     assert ctx.author.id in adminlist
     assert ctx.channel.id in chancmdlist
     try:
-        # await ctx.send('deplacejoueur en cours')
         i, j = int(args[0]), int(args[1])
         joueur_temp = copy(listejoueurs[i])
         if listejoueurs[i].pseudo == None:
@@ -207,7 +205,10 @@ async def naissances(ctx):
 @bot.command(name='anniversaires', aliases=['anniv'])
 async def anniversaires(ctx):
     #Initialisation du dictionnaire
-    liste_mois = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin','Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+    liste_mois = [
+        'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    ]
 
     dict_mois = {}
     for i in range(12):
@@ -236,6 +237,29 @@ async def fc(ctx, *args):
         return
     output = tabulate(table, headers='firstrow', tablefmt='simple')
     await ctx.send('```{0}```'.format(output), delete_after=30)
+
+@bot.command(name='modifjoueur', aliases=['mj'])
+async def modifjoueur(ctx, *args):
+    try:
+        assert args[1] in ['draps', 'prenom', 'pseudo', 'twitter', 'fc', 'anniv', 'num', 'exteams']
+        i = int(args[0])
+        if args[1] in ['draps', 'exteams']:
+            setattr(listejoueurs[i], args[1], args[2].split(','))
+        elif args[2] == 'anniv':
+            setattr(
+                listejoueurs[i], 
+                args[1], 
+                datetime.date(
+                    year=int(args[5][4:8]), 
+                    month=int(args[5][2:4]), 
+                    day=int(args[5][0:2])
+                )
+            )
+        else:
+            setattr(listejoueurs[i], args[1], args[2])
+        await ctx.send('{0} de {1} modifié'.format(args[1], listejoueurs[i].pseudo))
+    except:
+        await ctx.send('Usage incorrect', delete_after=30)
 
 bot.run(TOKEN)
 
