@@ -55,6 +55,10 @@ with open("token.txt", "r") as f:
     TOKEN = f.read()
 
 bot.load_extension("autoResponder")
+try:
+    bot.load_extension("secret")
+except:
+    1
 
 # All commands
 
