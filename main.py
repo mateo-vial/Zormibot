@@ -58,7 +58,7 @@ bot.load_extension("autoResponder")
 try:
     bot.load_extension("secret")
 except:
-    1
+    print("No secret extension available")
 
 # All commands
 
