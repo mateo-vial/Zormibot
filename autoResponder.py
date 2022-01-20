@@ -26,7 +26,7 @@ class MyCog(commands.Cog):
         if message.author.bot:
             return
 
-        # Mentions Zorm
+        # Mentions 
         if 135495101496426496 in [user.id for user in message.mentions] and message.author.id != 135495101496426496:
             await message.channel.send('{0.author.name}, ne dérange pas le boss.'.format(message))
 
@@ -52,10 +52,7 @@ class MyCog(commands.Cog):
         if ''.join(c for c in message.content if c.isalpha()).lower().endswith('quoi'):
             await message.channel.send(file = discord.File('feur/' + random.choice(os.listdir('feur'))))
 
-        # Special
-        nelist = ['né', 'nez', 'nait', 'ner', 'nés', 'née', 'nées', 'nais', 'naient', 'nai', 'ney']
-        if any([''.join(c for c in message.content if c.isalpha()).lower().endswith(ne) for ne in nelist]):
-            await message.channel.send('gro', delete_after = 60)
+        
 
 # Every extension should have this function
 def setup(bot):

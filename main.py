@@ -152,6 +152,10 @@ async def swapjoueurs(ctx, *args):
     try:
         i, j = int(args[0]), int(args[1])
         listejoueurs[i], listejoueurs[j] = listejoueurs[j], listejoueurs[i]
+
+        with open(pickle_filename, 'wb') as f:
+            pickle.dump(listejoueurs, f)
+
         await ctx.send('Joueurs {0} et {1} échangés.'.format(i, j), delete_after=10)
     except:
         await ctx.send('Usgae incorrect.', delete_after=10)
@@ -169,6 +173,10 @@ async def deplacejoueur(ctx, *args):
             pseud_temp = listejoueurs[i].pseudo
         del listejoueurs[i]
         listejoueurs.insert(j, joueur_temp)
+
+        with open(pickle_filename, 'wb') as f:
+            pickle.dump(listejoueurs, f)
+
         await ctx.send('''Joueur {0} déplacé à l'emplacement {1}'''.format(pseud_temp, j), delete_after=10)
     except:
         await ctx.send('Usage incorrect.', delete_after=10)
@@ -257,6 +265,10 @@ async def modifjoueur(ctx, *args):
             )
         else:
             setattr(listejoueurs[i], args[1], args[2])
+
+        with open(pickle_filename, 'wb') as f:
+            pickle.dump(listejoueurs, f)
+
         await ctx.send('{0} de {1} modifié'.format(args[1], listejoueurs[i].pseudo))
     except:
         await ctx.send('Usage incorrect', delete_after=30)

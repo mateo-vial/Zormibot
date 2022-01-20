@@ -89,7 +89,7 @@ class Joueur():
             pseud_temp = None
 
         return [
-            ', '.join(self.draps), 
+            ','.join(self.draps), 
             pseud_temp, 
             self.prenom, 
             at_twitter, 
@@ -100,7 +100,7 @@ class Joueur():
             ]), 
             '/'.join([str(self.anniv.day).zfill(2), str(self.anniv.month).zfill(2), str(self.anniv.year)]),
             self.num,
-            ', '.join(self.exteams)
+            ','.join(self.exteams)
         ]
 
     
