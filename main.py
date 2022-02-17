@@ -7,6 +7,8 @@ import os
 import random
 import datetime
 from copy import copy
+from PIL import Image, ImageDraw, ImageFont
+import numpy as np
 
 from class_joueur2 import Joueur2 as Joueur
 
@@ -35,7 +37,8 @@ listecommandes = [
     'naissances',
     'anniversaires',
     'fc',
-    'modifjoueur'
+    'modifjoueur',
+    'tl'
 ]
  
 with open('admin.txt', mode='r', encoding='utf-8') as f:
@@ -360,6 +363,44 @@ async def embed(ctx):
             embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
         
         await ctx.send(embed=embed)
+
+@bot.command(name='tierlist', aliases=['tl'])
+async def tl(ctx):
+    assert ctx.author.id in adminlist
+
+    if not os.path.isdir('images'):
+        os.mkdir('images')
+
+    font_sizes = {1 : 50, 2 : 50, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14}
+    colors = {'m' : (0, 179, 255), 's' : (228, 180, 0)}
+    font = 'RobotoMono-Regular.ttf'
+
+    size = (128,128)
+    bordersize = 4
+    center = size[0]//2-25
+
+    template_array = np.zeros(size)
+    template_array[bordersize:-bordersize,bordersize:-bordersize] = 255
+
+    template_im = Image.fromarray(template_array)
+
+    template_im = template_im.convert('RGB')
+    
+    #delete all images before creating new ones
+    for f in os.listdir('images'):
+        os.remove('images/'+f)
+
+    for joueur in listejoueurs:
+        template_copy = copy(template_im)
+
+        d = ImageDraw.Draw(template_copy)
+
+        my_font = ImageFont.truetype(font, font_sizes[len(joueur.pseudo)])
+        d.text((10, center), joueur.pseudo, fill=colors[joueur.statut.lower()], font = my_font)
+
+        template_copy.save('images/' + joueur.pseudo + '.png')
+    
+    await ctx.send('TL générée :+1:')
 
 bot.run(TOKEN)
 
