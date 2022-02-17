@@ -1,10 +1,12 @@
 --------- Usage ---------
-{0}ajouterjoueur <draps> <pseudo> <prénom> <twitter> <fc> <anniv> <num> <exteams>
+{0}ajouterjoueur <statut> <draps> <pseudo> <prénom> <twitter> <fc> <anniv> <num> <exteams>
 
 alias : 
 {0}aj
 
 ------- Arguments -------
+<statut> : statut du joueur (membre/stagiaire) désigné par la lettre M ou S
+	Exemple : M
 <draps> : Liste des drapeaux (2 lettres) séparés par une virgule
 	Exemple : fr,es,it
 <pseudo> : Pseudo du joueur

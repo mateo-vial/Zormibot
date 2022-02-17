@@ -8,7 +8,7 @@ import random
 import datetime
 from copy import copy
 
-from class_joueur import *
+from class_joueur2 import Joueur2 as Joueur
 
 random.seed()
 
@@ -17,8 +17,8 @@ pickle_filename = 'registre'
 if not os.path.isfile(pickle_filename):
     listejoueurs = []
 else:
-    file = open(pickle_filename, 'rb')
-    listejoueurs = pickle.load(file)
+    with open(pickle_filename, 'rb') as f:
+        listejoueurs = pickle.load(f)
 
 bot = commands.Bot(command_prefix="$",  help_command=None)
 
@@ -28,6 +28,7 @@ listecommandes = [
     'ajouterjoueur', 
     'listejoueurs', 
     'supprimerjoueur', 
+    'deplacejoueur',
     'teps', 
     'swapjoueurs', 
     'stop',
@@ -48,6 +49,7 @@ with open('chancmd.txt', mode='r', encoding='utf-8') as f:
 @bot.event
 async def on_ready():
     print("Le bot est prêt.")
+    
 
 # Put locally your token in a file named token.txt
 # It won't be upload on github due to gitignore 
@@ -79,7 +81,7 @@ async def help(ctx, *args):
                 output = '```{0}```'.format(f.read().format(bot.command_prefix))
         except:
             output = '''Cette commande n'existe pas.'''
-    await ctx.send(output)
+    await ctx.send(output, delete_after=30)
 
 @bot.command(name='ajouterjoueur', aliases=['aj'])
 async def ajouterjoueur(ctx, *args):
@@ -87,23 +89,24 @@ async def ajouterjoueur(ctx, *args):
     assert ctx.channel.id in chancmdlist
     try:
         listejoueurs.append(Joueur(
-            draps = args[0].split(','),
-            pseudo = args[1],
-            prenom = args[2],
-            twitter = args[3],
-            fc = args[4],
-            anniv = datetime.date(year=int(args[5][4:8]), month=int(args[5][2:4]), day=int(args[5][0:2])),
-            num = args[6],
-            exteams = args[7].split(',')
+            statut = args[0].lower(), #'M' ou 'S' ou 'm' ou 's'
+            draps = args[1].split(','),
+            pseudo = args[2],
+            prenom = args[3],
+            twitter = args[4],
+            fc = args[5],
+            anniv = datetime.date(year=int(args[6][4:8]), month=int(args[6][2:4]), day=int(args[6][0:2])),
+            num = args[7],
+            exteams = args[8].split(',')
         ))
 
         with open(pickle_filename, 'wb') as f:
             pickle.dump(listejoueurs, f)
         
-        if args[1] == '/':
-            pseud_temp = args[2]
+        if args[2] == '/':
+            pseud_temp = args[3]
         else:
-            pseud_temp = args[1]
+            pseud_temp = args[2]
         await ctx.send('Joueur {0} ajouté au registre.'.format(pseud_temp), delete_after=10)
     except:
         await ctx.send('Usage incorrect', delete_after=10)
@@ -129,11 +132,21 @@ async def supprimerjoueur(ctx, arg):
 
 @bot.command(name='affiche')
 async def affiche(ctx):
-    for joueur in listejoueurs:
-        await ctx.send(joueur.affiche())
+   # for joueur in listejoueurs:
+    #    await ctx.send(joueur.affiche())
+
+    for i in range((len(listejoueurs)+1) // 2):
+        output = ''
+        output += listejoueurs[2*i].affiche() 
+        try:
+            output += listejoueurs[2*i+1].affiche()
+        except:
+            pass
+        await ctx.send(output)
+
 
 @bot.command(name='listejoueurs', aliases=['lj'])
-async def _listejoueurs(ctx): #underscore because listejoueurs is already the list of all players
+async def _listejoueurs(ctx): # underscore because listejoueurs is already the list of all players
     table = [['N°', 'Drapeaux', 'Pseudo', 'Prénom', 'Twitter', 'FC', 'Anniv', 'Num', 'Ex-teams']]
     for i, joueur in enumerate(listejoueurs):
         liste_temp = [i] 
@@ -241,8 +254,12 @@ async def anniversaires(ctx):
 @bot.command(name='fc')
 async def fc(ctx, *args):
     table = [['N°', 'Pseudo', 'FC']]
-    for i, joueur in enumerate(listejoueurs):
-        if joueur.pseudo.lower() in [arg.lower() for arg in args]:
+    if len(args)>1:
+        for i, joueur in enumerate(listejoueurs):
+            if joueur.pseudo.lower() in [arg.lower() for arg in args]:
+                table.append([i, joueur.pseudo, 'SW-'+'-'.join([joueur.fc[0:4], joueur.fc[4:8], joueur.fc[8:12]])])
+    elif len(args)==0:
+        for i, joueur in enumerate(listejoueurs):
             table.append([i, joueur.pseudo, 'SW-'+'-'.join([joueur.fc[0:4], joueur.fc[4:8], joueur.fc[8:12]])])
     if len(table)==1:
         await ctx.send('Pseudo introuvable.')
@@ -253,20 +270,22 @@ async def fc(ctx, *args):
 @bot.command(name='modifjoueur', aliases=['mj'])
 async def modifjoueur(ctx, *args):
     try:
-        assert args[1] in ['draps', 'prenom', 'pseudo', 'twitter', 'fc', 'anniv', 'num', 'exteams']
+        assert args[1] in ['statut', 'draps', 'prenom', 'pseudo', 'twitter', 'fc', 'anniv', 'num', 'exteams']
         i = int(args[0])
         if args[1] in ['draps', 'exteams']:
             setattr(listejoueurs[i], args[1], args[2].split(','))
-        elif args[2] == 'anniv':
+        elif args[1] == 'anniv':
             setattr(
                 listejoueurs[i], 
                 args[1], 
                 datetime.date(
-                    year=int(args[5][4:8]), 
-                    month=int(args[5][2:4]), 
-                    day=int(args[5][0:2])
+                    year=int(args[2][4:8]), 
+                    month=int(args[2][2:4]), 
+                    day=int(args[2][0:2])
                 )
             )
+        elif args[1] == 'statut':
+            setattr(listejoueurs[i], args[1], args[2].lower())
         else:
             setattr(listejoueurs[i], args[1], args[2])
 

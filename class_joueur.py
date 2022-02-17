@@ -54,7 +54,7 @@ class Joueur():
         # écriture Anniv
         if self.anniv != None:
             sep = '/'
-            output += 'Anniversaire : ' + sep.join([str(self.anniv.jour).zfill(2), str(self.anniv.mois).zfill(2), str(self.anniv.annee)])
+            output += 'Anniversaire : ' + sep.join([str(self.anniv.day).zfill(2), str(self.anniv.month).zfill(2), str(self.anniv.year)])
             output += '\n'
 
         # écriture Num
