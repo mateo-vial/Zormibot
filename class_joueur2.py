@@ -71,6 +71,7 @@ class Joueur2():
             else:
                 output += self.num
             output += '\n'
+
         # écriture Ex-team
         sep = ', '
         output += 'Ex-team MK8D : '
@@ -78,6 +79,63 @@ class Joueur2():
 
         # fin
         output += '```'
+        return output
+
+    def affiche_title_embed(self):
+        output = ''
+
+        # Symbole stagiaire/membre
+        emojidict = {'m' : ':blue_circle:', 's' : ':yellow_circle:'}
+        output += emojidict[self.statut.lower()] + '  ' #espace insecable
+
+        # drapeaux
+        output += ' '.join([':flag_{0}:'.format(drap) for drap in self.draps]) + ' ' #espace insecable
+
+        # pseudo/prenom
+        if self.pseudo != self.prenom:
+            output += self.pseudo+'/'
+        output += self.prenom
+
+        return output
+
+    def affiche_value_embed(self):
+        output = ''
+
+        #   écriture twitter
+        if self.twitter != None:
+            output += 'Twitter : ``@{0}``\n'.format(self.twitter) #espace insecable
+        
+        output += '```'
+        # écriture FC
+        if self.fc != None: # en principe c jamais none...
+            prefix_fc = 'SW-'
+            sep = '-'
+            # output += 'FC : '+ prefix + self.fc[0:4] + sep + self.fc[4:8] + sep + self.fc[8:12]
+            output += 'FC : ' + prefix_fc + sep.join([self.fc[0:4], self.fc[4:8], self.fc[8:12]]) + '\n' #insecable
+
+        # écriture anniv
+        if self.anniv != None:
+            sep = '/'
+            output += 'Anniversaire : ' + sep.join([str(self.anniv.day).zfill(2), str(self.anniv.month).zfill(2), str(self.anniv.year)])
+            output += '\n' #insecable
+
+        # écriture num
+        if self.num != None:
+            sep = ' '
+            output += 'Num : '#insecable
+            if len(self.num) == 10:
+                output += sep.join([self.num[0:2], self.num[2:4], self.num[4:6], self.num[6:8], self.num[8:10]])
+            else:
+                output += self.num
+            output += '\n'
+        
+        # écriture Ex-team
+        sep = ', '
+        output += 'Ex-team MK8D : ' #insecable
+        output += sep.join(self.exteams)
+
+        output += '```'
+    
         return output
 
     def liste_affiche(self):

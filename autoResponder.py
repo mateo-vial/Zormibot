@@ -8,7 +8,7 @@ import random
 import datetime
 from copy import copy
 
-from class_joueur import *
+#from class_joueur2 import Joueur2 as Joueur
 
 
 class MyCog(commands.Cog):
@@ -31,7 +31,7 @@ class MyCog(commands.Cog):
             await message.channel.send('{0.author.name}, ne dérange pas le boss.'.format(message))
 
         # Bob l'éponge
-        if random.randrange(300) == 0:
+        if random.randrange(300) == 0 and False:
             output = ''
             for char in message.content:
                 if random.randrange(2) == 0:
@@ -45,11 +45,11 @@ class MyCog(commands.Cog):
             await message.channel.send(file = discord.File('tecrisbcp/' + random.choice(os.listdir('tecrisbcp'))))
 
         # PTG
-        if random.randrange(100) == 0:
+        if random.randrange(700) == 0:
             await message.channel.send('Pitié ta gueule {0}'.format(message.author.name))
 
         # Feur
-        if ''.join(c for c in message.content if c.isalpha()).lower().endswith('quoi'):
+        if False and ''.join(c for c in message.content if c.isalpha()).lower().endswith('quoi'):
             await message.channel.send(file = discord.File('feur/' + random.choice(os.listdir('feur'))))
 
         

@@ -8,7 +8,7 @@ import random
 import datetime
 from copy import copy
 
-from class_joueur import *
+#from class_joueur import *
 
 
 class Secret(commands.Cog):

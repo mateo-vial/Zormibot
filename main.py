@@ -223,9 +223,23 @@ async def naissances(ctx):
         dict_annees[annee].sort(key = lambda joueur: joueur.anniv)
 
     # On génère l'affiche
-    output = ':baby: Naissances```{0}```'.format('\n'.join(['{0} : {1}'.format(annee, ' > '.join([joueur.pseudo+' ('+'{:02d}/{:02d}'.format(joueur.anniv.day, joueur.anniv.month)+')' for joueur in dict_annees[annee]])) for annee in sorted(dict_annees)]))
+    embed = discord.Embed(
+        title=":baby: Naissances",  
+        color=0xFF5733,
+        type='rich'
+    )
+    for annee in sorted(dict_annees):
+        embed.add_field(
+            name=annee, 
+            value='```{0}```'.format('\n'.join([joueur.pseudo+' ('+'{:02d}/{:02d}'.format(joueur.anniv.day, joueur.anniv.month)+')' for joueur in dict_annees[annee]])),
+            inline=True
+        )
     
-    await ctx.send(output)
+    
+    #output = ':baby: Naissances```{0}```'.format('\n'.join(['{0} : {1}'.format(annee, ' > '.join([joueur.pseudo+' ('+'{:02d}/{:02d}'.format(joueur.anniv.day, joueur.anniv.month)+')' for joueur in dict_annees[annee]])) for annee in sorted(dict_annees)]))
+    
+    #await ctx.send(output)
+    await ctx.send(embed=embed)
 
 @bot.command(name='anniversaires', aliases=['anniv'])
 async def anniversaires(ctx):
@@ -248,13 +262,26 @@ async def anniversaires(ctx):
         dict_mois[i].sort(key = lambda joueur: datetime.date(year=2004, month=joueur.anniv.month, day=joueur.anniv.day))
     
     # On génère l'affiche
-    output = ':birthday: Anniversaires```\n{0}```'.format('\n'.join([' '*(9-len(liste_mois[i-1]))+liste_mois[i-1]+' : '+', '.join([joueur.pseudo+' ('+str(joueur.anniv.day)+')' for joueur in dict_mois[i]]) for i in dict_mois]))
-    await ctx.send(output)
+    embed = discord.Embed(
+        title=":birthday: Anniversaires",  
+        color=0xFF5733,
+        type='rich'
+    )
+    for i in dict_mois:
+        embed.add_field(
+            name=liste_mois[i-1],
+            value='```{0}```'.format('\n'.join([joueur.pseudo+' ('+str(joueur.anniv.day)+')' for joueur in dict_mois[i]])),
+            inline=True
+        )
+    await ctx.send(embed=embed)
+
+    #output = ':birthday: Anniversaires```\n{0}```'.format('\n'.join([' '*(9-len(liste_mois[i-1]))+liste_mois[i-1]+' : '+', '.join([joueur.pseudo+' ('+str(joueur.anniv.day)+')' for joueur in dict_mois[i]]) for i in dict_mois]))
+    #await ctx.send(output)
 
 @bot.command(name='fc')
 async def fc(ctx, *args):
     table = [['N°', 'Pseudo', 'FC']]
-    if len(args)>1:
+    if len(args)>=1:
         for i, joueur in enumerate(listejoueurs):
             if joueur.pseudo.lower() in [arg.lower() for arg in args]:
                 table.append([i, joueur.pseudo, 'SW-'+'-'.join([joueur.fc[0:4], joueur.fc[4:8], joueur.fc[8:12]])])
@@ -295,6 +322,44 @@ async def modifjoueur(ctx, *args):
         await ctx.send('{0} de {1} modifié'.format(args[1], listejoueurs[i].pseudo))
     except:
         await ctx.send('Usage incorrect', delete_after=30)
+
+
+@bot.command(name='test')
+async def embed(ctx):
+    embed=discord.Embed(
+        title="Liste des joueurs",   
+        color=0xFF5733,
+        type='rich'
+    )
+    for i in range((len(listejoueurs)+1)//2):
+        j1 = listejoueurs[2*i]
+        j2 = listejoueurs[2*i+1]
+        embed.add_field(name=j1.affiche_title_embed(), value=j1.affiche_value_embed(), inline=True)
+        try: embed.add_field(name=j2.affiche_title_embed(), value=j2.affiche_value_embed(), inline=True) 
+        except: pass
+        embed.add_field(name='\u200b', value='\u200b', inline=False)
+    await ctx.send(embed=embed)
+
+@bot.command(name='test2')
+async def embed(ctx):
+    embed=discord.Embed(
+        title="Liste des joueurs",  
+        description="Bah c'est la liste des joueurs quoi", 
+        color=0xFF5733,
+        type='rich'
+    )
+    for j in listejoueurs[:24]:
+        embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
+    await ctx.send(embed=embed)
+    if len(listejoueurs)>24:
+        embed=discord.Embed( 
+        color=0xFF5733,
+        type='rich'
+        )
+        for j in listejoueurs[24:]:
+            embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
+        
+        await ctx.send(embed=embed)
 
 bot.run(TOKEN)
 
