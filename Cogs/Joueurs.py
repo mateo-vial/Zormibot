@@ -15,7 +15,10 @@ def alias_to_ind(alias):
     """
     Retourne l'indice du (ou des) joueur(s) dont l'alias input figure dans l'attribut alias
     """
-    return [i for i, joueur in enumerate(listejoueurs) if alias.lower() in [a.lower() for a in joueur.alias]]
+    try: 
+        return [int(alias)] # if alias is a number in a string
+    except: 
+        return [i for i, joueur in enumerate(listejoueurs) if alias.lower() in [a.lower() for a in joueur.alias]]
 
 class Joueurs(commands.Cog):
     def __init__(self, bot):
@@ -103,7 +106,6 @@ class Joueurs(commands.Cog):
     async def swapjoueurs(self, ctx, i, j):
         assert ctx.channel.id in chancmdlist
         assert ctx.author.id in adminlist
-        print('test v')
         try:
             i, j = int(i), int(j)
             listejoueurs[i], listejoueurs[j] = listejoueurs[j], listejoueurs[i]
@@ -116,12 +118,11 @@ class Joueurs(commands.Cog):
             await ctx.send('Usgae incorrect.', delete_after=10)
 
     @commands.command(name='deplacejoueur', aliases=['dj'])
-    async def deplacejoueur(self, ctx, i, j):
+    async def deplacejoueur(self, ctx, alias, j):
         assert ctx.author.id in adminlist
         assert ctx.channel.id in chancmdlist
-        print('teest v2')
         try:
-            i, j = int(i), int(j)
+            i, j = alias_to_ind(alias)[0], int(j)
             joueur_temp = copy(listejoueurs[i])
             if listejoueurs[i].pseudo == None:
                 pseud_temp = listejoueurs[i].prenom
@@ -264,10 +265,6 @@ class Joueurs(commands.Cog):
 
         # Delete all messages in channel
         await self.bot.get_channel(943503741959700501).purge()
-
-        # Send fc images
-        for file in os.listdir('images_fc'):
-            await ctx.send(file = discord.File('images_fc/'+file))
 
         # Do the embed
         embed=discord.Embed(
