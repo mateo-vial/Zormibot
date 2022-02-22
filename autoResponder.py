@@ -14,10 +14,6 @@ class MyCog(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        print('Logged on as {0}!'.format(self.bot.user))
-
-    @commands.Cog.listener()
     async def on_message(self, message):
 
         # print('Message from {0.author} in channel id {0.channel.id} server id {0.guild.id} : {0.content}'.format(message))

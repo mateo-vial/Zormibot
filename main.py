@@ -82,6 +82,10 @@ print(cogs_list)
 for cog in cogs_list:
     bot.load_extension(cogs_dir + '.' + cog[:-3])
 
+
+
+
+
 @bot.command(name='help')
 async def help(ctx, *args):
     if len(args) == 0:

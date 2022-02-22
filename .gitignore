@@ -7,5 +7,6 @@ chancmd.txt
 test.py
 special.py
 images/
+images_fc/
 cogs/__pycache__/
 cogs/Template.py

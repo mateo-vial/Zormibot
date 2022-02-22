@@ -50,15 +50,17 @@ class Joueurs(commands.Cog):
             await ctx.send('Usage incorrect', delete_after=10)
 
     @commands.command(name='supprimerjoueur', aliases=['sj'])
-    async def supprimerjoueur2(self, ctx, i):
+    async def supprimerjoueur2(self, ctx, alias):
         assert ctx.author.id in adminlist
         assert ctx.channel.id in chancmdlist
         try:
-            ind_a_supprimer = int(i)
+            ind_a_supprimer = alias_to_ind(alias)[0]
+
             if listejoueurs[ind_a_supprimer].pseudo == None:
                 pseud_temp = listejoueurs[ind_a_supprimer].prenom
             else:
                 pseud_temp = listejoueurs[ind_a_supprimer].pseudo
+
             del listejoueurs[ind_a_supprimer]
 
             with open(pickle_filename, 'wb') as f:
@@ -70,7 +72,7 @@ class Joueurs(commands.Cog):
 
     @commands.command(name='listejoueurs', aliases=['lj'])
     async def listejoueurs_(self, ctx): # underscore because listejoueurs is already the list of all players
-        table = [['N°', 'Drapeaux', 'Pseudo', 'Prénom', 'Twitter', 'FC', 'Anniv', 'Num', 'Ex-teams']]
+        table = [['N°', 'Statut', 'Drapeaux', 'Pseudo', 'Prénom', 'Twitter', 'FC', 'Anniv', 'Num', 'Ex-teams']]
         for i, joueur in enumerate(listejoueurs):
             liste_temp = [i] 
             liste_temp += joueur.liste_affiche()
@@ -256,12 +258,16 @@ class Joueurs(commands.Cog):
             
 
     @commands.command(name='infosjoueurs', aliases=['ij'])
-    async def infosjoueurs(ctx):
+    async def infosjoueurs(self, ctx):
         # 943503741959700501
         assert ctx.author.id in adminlist
 
         # Delete all messages in channel
-        await commands.get_channel(943503741959700501).purge()
+        await self.bot.get_channel(943503741959700501).purge()
+
+        # Send fc images
+        for file in os.listdir('images_fc'):
+            await ctx.send(file = discord.File('images_fc/'+file))
 
         # Do the embed
         embed=discord.Embed(
@@ -272,7 +278,7 @@ class Joueurs(commands.Cog):
         )
         for j in listejoueurs[:24]:
             embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
-        await commands.get_channel(943503741959700501).send(embed=embed)
+        await self.bot.get_channel(943503741959700501).send(embed=embed)
         if len(listejoueurs)>24:
             embed=discord.Embed( 
             color=0xFF5733,
@@ -281,7 +287,7 @@ class Joueurs(commands.Cog):
             for j in listejoueurs[24:]:
                 embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
         
-            await commands.get_channel(943503741959700501).send(embed=embed)
+            await self.bot.get_channel(943503741959700501).send(embed=embed)
 
     @commands.command(name='tierlist', aliases=['tl'])
     async def tierlist(self, ctx):

@@ -3,7 +3,7 @@ class Joueur():
         """
         Je pars du principe que les champs draps, prenom, fc et anniv sont forcément renseignés
         """
-        self.statut = statut # 'm' ou 's' pour membre/stagiaire
+        self.statut = statut.lower() # 'm' ou 's' pour membre/stagiaire
 
         self.draps = draps # list of strings
 
@@ -144,7 +144,7 @@ class Joueur():
         return output
 
     def liste_affiche(self):
-        # ['N°', 'Drapeaux', 'Pseudo', 'Prénom', 'Twitter', 'FC', 'Anniv', 'Num', 'Ex-teams']
+        # ['N°', 'Statut', 'Drapeaux', 'Pseudo', 'Prénom', 'Twitter', 'FC', 'Anniv', 'Num', 'Ex-teams']
 
         try:
             at_twitter = '@'+self.twitter
@@ -157,6 +157,7 @@ class Joueur():
             pseud_temp = None
 
         return [
+            self.statut.upper(),
             ','.join(self.draps), 
             pseud_temp, 
             self.prenom, 
