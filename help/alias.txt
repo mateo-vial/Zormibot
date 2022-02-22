@@ -1,0 +1,9 @@
+--------- Usage ---------
+{0}alias <alias>
+
+------- Arguments -------
+<alias> : alias du joueur
+	Exemple : Gab / Gerbouille
+
+------ Description ------
+Affiche la liste des alias du joueur
