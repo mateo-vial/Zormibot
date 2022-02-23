@@ -14,16 +14,25 @@ from class_joueur import Joueur
 
 random.seed()
 pickle_filename = 'registre'
+counter_table_filename = 'counter_table'
 
 
 # -------------------------------------------------------- #
 # RECUPERATION DU FICHIER PICKLE POUR LA LISTE DES JOUEURS #
+# et aussi du counter :)                                   #
 # -------------------------------------------------------- #
 if not os.path.isfile(pickle_filename):
     listejoueurs = []
 else:
     with open(pickle_filename, 'rb') as f:
         listejoueurs = pickle.load(f)
+
+if not os.path.isfile(counter_table_filename):
+    counter_table = [[0,0,0],[0,0,0]]
+else:
+    with open(counter_table_filename, 'rb') as f:
+        counter_table = pickle.load(f)
+print('compteur réglé à ', counter_table)
 
 
 bot = commands.Bot(command_prefix="$",  help_command=None)

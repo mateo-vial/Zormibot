@@ -25,6 +25,11 @@ class Misc(commands.Cog):
         assert ctx.author.id in adminlist
         await ctx.send('Ciao.')
         exit()
+    
+    @commands.command(name='test')
+    async def test(self, ctx):
+        assert ctx.author.id in adminlist
+        await self.bot.get_channel(380290663259832320).send("""Haha j'ai accès à ce channel cheh""")
 
 def setup(bot):
     bot.add_cog(Misc(bot))
