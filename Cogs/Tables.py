@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import pickle
+import urllib
 
 from main import counter_table, counter_table_filename
 
@@ -61,10 +62,6 @@ class Tables(commands.Cog):
             
         url_table_text = urllib.parse.quote(table_text)
         image_url = base_url_lorenzi + url_table_text
-
-        # --------------- #
-        #      EMBED      #
-        # --------------- #
         
 
         e = discord.Embed(title="Table")
@@ -120,11 +117,6 @@ class Tables(commands.Cog):
 
             e = discord.Embed(title=title)
             e.set_image(url=image_url)
-            #content = "Please react to this message with \U00002611 within the next 30 seconds to confirm the table is correct"
-            #if total != normal_total[size]:
-             #   warning = ("The total score of %d might be incorrect! Most tables should add up to %d points"
-              #         % (total, normal_total[size]))
-               # e.add_field(name="Warning", value=warning)
             await chan.send(embed=e)
 
 

@@ -287,13 +287,13 @@ class Joueurs(commands.Cog):
             await self.bot.get_channel(943503741959700501).send(embed=embed)
 
     @commands.command(name='tierlist', aliases=['tl'])
-    async def tierlist(self, ctx):
+    async def tierlist(self, ctx, mode='pseudo'):
         assert ctx.author.id in adminlist
 
         if not os.path.isdir('images'):
             os.mkdir('images')
 
-        font_sizes = {1 : 50, 2 : 50, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14}
+        font_sizes = {1 : 60, 2 : 60, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14}
         colors = {'m' : (0, 179, 255), 's' : (228, 180, 0)}
         font = 'RobotoMono-Regular.ttf'
 
@@ -316,9 +316,14 @@ class Joueurs(commands.Cog):
             template_copy = copy(template_im)
 
             d = ImageDraw.Draw(template_copy)
+            
+            if mode=='pseudo':
+                text = joueur.pseudo
+            elif mode=='alias':
+                text = joueur.alias[np.argmin([len(a) for a in joueur.alias])]
 
-            my_font = ImageFont.truetype(font, font_sizes[len(joueur.pseudo)])
-            d.text((10, center), joueur.pseudo, fill=colors[joueur.statut.lower()], font = my_font)
+            my_font = ImageFont.truetype(font, font_sizes[len(text)])
+            d.text((10, center), text, fill=colors[joueur.statut.lower()], font = my_font)
 
             template_copy.save('images/' + joueur.pseudo + '.png')
     
