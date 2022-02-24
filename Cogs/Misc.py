@@ -31,5 +31,10 @@ class Misc(commands.Cog):
         assert ctx.author.id in adminlist
         await self.bot.get_channel(380290663259832320).send("""Haha j'ai accès à ce channel cheh""")
 
+    @commands.command()
+    @commands.has_role('Enfants')
+    async def bb(self, ctx):
+        await ctx.send('Tu es un enfant :+1:')
+        
 def setup(bot):
     bot.add_cog(Misc(bot))

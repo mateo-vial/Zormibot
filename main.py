@@ -28,7 +28,7 @@ else:
         listejoueurs = pickle.load(f)
 
 if not os.path.isfile(counter_table_filename):
-    counter_table = [[0,0,0],[0,0,0]]
+    counter_table = [[0,0,0],[0,0,0],0]
 else:
     with open(counter_table_filename, 'rb') as f:
         counter_table = pickle.load(f)
