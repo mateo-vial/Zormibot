@@ -1,5 +1,5 @@
 discord
 tabulate
-datetime
 pillow
 numpy
+pytz

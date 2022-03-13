@@ -1,5 +1,5 @@
 class Joueur():
-    def __init__(self, statut, draps, pseudo, prenom, twitter, fc, anniv, num, exteams):
+    def __init__(self, statut, draps, pseudo, prenom, twitter, fc, anniv, num, exteams, id_discord):
         """
         Je pars du principe que les champs draps, prenom, fc et anniv sont forcément renseignés
         """
@@ -29,6 +29,9 @@ class Joueur():
 
         if exteams != ['/']: self.exteams = exteams
         else: self.exteams = ['Aucune']
+
+        if id_discord != '/': self.id_discord = int(id_discord)
+        else: self.id_discord = None
 
     def affiche(self):
         """
@@ -169,7 +172,7 @@ class Joueur():
             ]), 
             '/'.join([str(self.anniv.day).zfill(2), str(self.anniv.month).zfill(2), str(self.anniv.year)]),
             self.num,
-            ','.join(self.exteams)
+            ','.join(self.exteams),
         ]
 
     

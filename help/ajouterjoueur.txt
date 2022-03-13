@@ -1,5 +1,5 @@
 --------- Usage ---------
-{0}ajouterjoueur <statut> <draps> <pseudo> <prénom> <twitter> <fc> <anniv> <num> <exteams>
+{0}ajouterjoueur <statut> <draps> <pseudo> <prénom> <twitter> <fc> <anniv> <num> <exteams> <id_discord>
 
 alias : 
 {0}aj
@@ -25,6 +25,8 @@ Pour tous les arguments, mettre '/' si le champ n'est pas renseigné
 	Exemple : 0607080910
 <exteams> : Liste des tags des ex-teams du joueur séparés par une virgule
 	Exemple : sтс,ὡƒ
+<id_discord> : ID discord du joueur (facultatif)
+	Exemple : 145605793557905408
 
 ------ Description ------
 Ajoute un joueur au registre.

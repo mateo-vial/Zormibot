@@ -1,41 +1,32 @@
-import discord
-from discord.ext import tasks
 from discord.ext import commands
-from tabulate import tabulate
 import pickle
 import os
+import re
 import random
-import datetime
-from copy import copy
-from PIL import Image, ImageDraw, ImageFont
-import numpy as np
 
-from class_joueur import Joueur
+random.seed(3)
 
-random.seed()
-pickle_filename = 'registre'
-counter_table_filename = 'counter_table'
+
 
 
 # -------------------------------------------------------- #
 # RECUPERATION DU FICHIER PICKLE POUR LA LISTE DES JOUEURS #
 # et aussi du counter :)                                   #
 # -------------------------------------------------------- #
-if not os.path.isfile(pickle_filename):
-    listejoueurs = []
-else:
-    with open(pickle_filename, 'rb') as f:
-        listejoueurs = pickle.load(f)
 
-if not os.path.isfile(counter_table_filename):
-    counter_table = [[0,0,0],[0,0,0],0]
-else:
-    with open(counter_table_filename, 'rb') as f:
-        counter_table = pickle.load(f)
-print('compteur réglé à ', counter_table)
+listejoueurs_filename = 'pickles/listejoueurs'
+counter_table_filename = 'pickles/counter_table'
 
+def file_load(filename, default_value):
+    if not os.path.isfile(filename):
+        return default_value
+    else:
+        with open(filename, 'rb') as f:
+            return pickle.load(f)
 
-bot = commands.Bot(command_prefix="$",  help_command=None)
+listejoueurs = file_load(listejoueurs_filename, default_value=[])
+counter_table = file_load(counter_table_filename, default_value=[[0, 0, 0], [0, 0, 0], 0])
+
 
 listecommandes = [
     'hello', 
@@ -51,51 +42,60 @@ listecommandes = [
     'anniversaires',
     'fc',
     'modifjoueur',
-    'tl'
+    'tl',
+    'submit',
+    'startwar'
 ]
+
  
 # ------------------------------------------------------- #
 # RECUPERATION DES FICHIERS ADMIN ET CHANCOMMAND ET TOKEN #
 # ------------------------------------------------------- #
+
 with open('admin.txt', mode='r', encoding='utf-8') as f:
     adminlist = [int(line.split()[0]) for line in f.readlines()]
     # edit admin.txt to edit admins
 with open('chancmd.txt', mode='r', encoding='utf-8') as f:
     chancmdlist = [int(line.split()[0]) for line in f.readlines()]
     # edit chancmd.txt to edit channels
-with open("token.txt", "r") as f:
+with open('token.txt', 'r') as f:
     TOKEN = f.read()
     # token.txt
+
 
 
 # ----------------------------- #
 #          BOT LAUNCH           #
 # ----------------------------- #
+
+bot = commands.Bot(command_prefix='$',  help_command=None)
+
 @bot.event
 async def on_ready():
-    print("Le bot est prêt.")
-
-bot.load_extension("autoResponder")
-try:
-    bot.load_extension("secret")
-except:
-    print("No secret extension available")
+    print('Le bot est prêt.')
+   
+#Unmute Zorm
+#@bot.event
+#async def on_voice_state_update(member, before, after):
+#    if member.id == 135495101496426496:
+#        if after.mute:
+#            await member.edit(mute=False)
 
 # ----------------------------- #
 #          EXTENSIONS           #
 # ----------------------------- #
-cogs_dir = 'Cogs'
-cogs_list = [f for f in os.listdir(cogs_dir) if f.endswith('.py')]
-print('extensions : ')
-print(cogs_list)
-for cog in cogs_list:
-    bot.load_extension(cogs_dir + '.' + cog[:-3])
 
+for (path, dirs, files) in os.walk('Extensions'):
+    for file in files:
+        if file.endswith('.py'):
+            extension_name = re.sub('/|\\\\', '.', path) + '.' + file[:-3]
+            bot.load_extension(extension_name)
 
+# ------------------------- #
+#       SOME COMMANDS       #
+# ------------------------- #
 
-
-
-@bot.command(name='help')
+@bot.command()
 async def help(ctx, *args):
     if len(args) == 0:
         output = '```'
@@ -109,6 +109,7 @@ async def help(ctx, *args):
         except:
             output = '''Cette commande n'existe pas.'''
     await ctx.send(output, delete_after=30)
+
 
 bot.run(TOKEN)
 

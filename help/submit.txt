@@ -1,0 +1,23 @@
+--------- Usage ---------
+{0}submit <mode> <taille> <team1> <team2>
+<j1> [drap1] <score1>
+<j2> [drap2] <score2>
+<j3> [drap3] <score3>
+...
+
+
+------- Arguments -------
+<mode> : Le mode du war 
+	Exemple : offi, friendly, intra
+<taille> : nb de joueurs dans chaque équipe
+	Exemple : 6 (pour un 6V6)
+<team1>, <team2> : tags des teams
+	Exemple : JPP
+<j1> : nom du joueur 1
+[drap1] : drapeau du joueur 1 sans crochets (facultatif)
+<score1> : score du joueur 1
+	Exemple : Zorm fr 180
+		  Gab 2
+
+------ Description ------
+Crée un super tableau.

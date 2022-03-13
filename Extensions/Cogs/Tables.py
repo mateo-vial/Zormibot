@@ -10,12 +10,13 @@ class Tables(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.has_role('JPP')
+    @commands.has_role(372427086880833538) # JPP
+    @commands.has_role(948252357379129354) # Esclave de tabs
     @commands.command()
     async def submit(self, ctx, mode, size:int, home, adv, *, data):
         #basic parameter checks
         if ctx.guild.id != 371688231076626433:
-            await ctx.send("You cannot use this command in this server!")
+            await ctx.send('You cannot use this command in this server!')
             return
         if mode not in ['offi', 'friendly', 'intra']:
             await ctx.send('Mode incorrect.')
@@ -25,13 +26,13 @@ class Tables(commands.Cog):
             return
 
         # Wait for message for style argument
-        await ctx.send('Style (default/dark/mku) ? (5s)')
+        await ctx.send('Style (default/dark/mku) ? (10s)')
         
         def check1(m):
             return (m.content in ['mku', 'dark', 'default']) and (m.author == ctx.author)
 
         try:
-            msg = await self.bot.wait_for('message', timeout=5.0, check=check1)
+            msg = await self.bot.wait_for('message', timeout=10.0, check=check1)
             style = msg.content
         except:
             await ctx.send('style default car tu es long.')
@@ -137,21 +138,31 @@ class Tables(commands.Cog):
                     ind_incr = 1
                     chan = self.bot.get_channel(815647761528520715)
 
-                if total_home > total_adv: # WIN
+                if total_home > total_adv: 
+
+                    # WIN
                     counter_table[ind_incr][0] += 1
                     count_temp = counter_table[ind_incr][0]
                     title = 'Win #{0} vs {1}'.format(counter_table[ind_incr][0], adv)
                     path_ = 'win/'
-                elif total_home < total_adv: # LOSE
+                    
+                elif total_home < total_adv: 
+
+                    # LOSE
                     counter_table[ind_incr][2] += 1
                     count_temp = counter_table[ind_incr][2]
                     title = 'Lose #{0} vs {1}'.format(counter_table[ind_incr][2], adv)
                     path_ = 'lose/'
-                else:                        # TIE
+
+                else:          
+
+                    # TIE
                     counter_table[ind_incr][1] += 1
                     count_temp = counter_table[ind_incr][1]
                     title = 'Tie #{0} vs {1}'.format(counter_table[ind_incr][1], adv)
                     path_ = 'tie/'
+
+                topic = '{0[0]} - {0[1]} - {0[2]}'.format(counter_table[ind_incr])
 
             # save the counter after incrementing it
             with open(counter_table_filename, 'wb') as f:
@@ -161,11 +172,12 @@ class Tables(commands.Cog):
             e = discord.Embed(title=title)
             e.set_image(url=image_url)
             await chan.send(embed=e)
+            if mode in ['offi', 'friendly']: # Update channel topic
+                await chan.edit(topic=topic)
 
             # save image locally
             if True:
                 urllib.request.urlretrieve(image_url, 'Tables/{0}/{1}{2}.jpg'.format(mode, path_, count_temp))
-
 
             return
     
@@ -195,12 +207,19 @@ class Tables(commands.Cog):
             war_type = args[0]
             win, tie, lose = int(args[1]), int(args[2]), int(args[3])
 
-        if war_type == 'friendly': i=0
-        elif war_type == 'offi': i=1
+        if war_type == 'friendly': 
+            i=0
+            chan = self.bot.get_channel(815641948776955905)
+        elif war_type == 'offi': 
+            i=1
+            chan = self.bot.get_channel(815647761528520715)
+
         counter_table[i] = [win, tie, lose]
+        topic = '{0[0]} - {0[1]} - {0[2]}'.format(counter_table[i])
         with open(counter_table_filename, 'wb') as f:
             pickle.dump(counter_table, f)
         await ctx.send('Compteur réglé à {0}'.format(counter_table[i]))
+        await chan.edit(topic=topic)
 
     @commands.has_role('JPP')
     @commands.command()

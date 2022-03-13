@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
+from discord.ext import tasks
 import datetime
+from pytz import timezone
 import pickle
 from tabulate import tabulate
 from copy import copy
@@ -8,8 +10,9 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from main import adminlist, chancmdlist, listejoueurs, pickle_filename
+from main import adminlist, chancmdlist, listejoueurs, listejoueurs_filename
 from class_joueur import Joueur as Joueur
+
 
 def alias_to_ind(alias):
     """
@@ -20,12 +23,19 @@ def alias_to_ind(alias):
     except: 
         return [i for i, joueur in enumerate(listejoueurs) if alias.lower() in [a.lower() for a in joueur.alias]]
 
+
 class Joueurs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.affiche_anniversaires.start()
+
+
+    # ---------------------- #
+    #        COMMANDS        #
+    # ---------------------- #
 
     @commands.command(name='ajouterjoueur', aliases=['aj'])
-    async def ajouterjoueur(self, ctx, statut, draps, pseudo, prenom, twitter, fc, anniv, num, exteams):
+    async def ajouterjoueur(self, ctx, statut, draps, pseudo, prenom, twitter, fc, anniv, num, exteams, id_):
         assert ctx.author.id in adminlist
         assert ctx.channel.id in chancmdlist
         try:
@@ -38,10 +48,11 @@ class Joueurs(commands.Cog):
                 fc = fc,
                 anniv = datetime.date(year=int(anniv[4:8]), month=int(anniv[2:4]), day=int(anniv[0:2])),
                 num = num,
-                exteams = exteams.split(',')
+                exteams = exteams.split(','),
+                id_discord = id_
             ))
 
-            with open(pickle_filename, 'wb') as f:
+            with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
         
             if pseudo == '/':
@@ -55,7 +66,6 @@ class Joueurs(commands.Cog):
     @commands.command(name='supprimerjoueur', aliases=['sj'])
     async def supprimerjoueur2(self, ctx, alias):
         assert ctx.author.id in adminlist
-        assert ctx.channel.id in chancmdlist
         try:
             ind_a_supprimer = alias_to_ind(alias)[0]
 
@@ -66,7 +76,7 @@ class Joueurs(commands.Cog):
 
             del listejoueurs[ind_a_supprimer]
 
-            with open(pickle_filename, 'wb') as f:
+            with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
 
             await ctx.send('''Joueur {0} supprimé du registre.\n (Les N° sont modifiés après la suppression d'un joueur)'''.format(pseud_temp), delete_after = 10)
@@ -110,7 +120,7 @@ class Joueurs(commands.Cog):
             i, j = int(i), int(j)
             listejoueurs[i], listejoueurs[j] = listejoueurs[j], listejoueurs[i]
 
-            with open(pickle_filename, 'wb') as f:
+            with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
 
             await ctx.send('Joueurs {0} et {1} échangés.'.format(i, j), delete_after=10)
@@ -131,7 +141,7 @@ class Joueurs(commands.Cog):
             del listejoueurs[i]
             listejoueurs.insert(j, joueur_temp)
 
-            with open(pickle_filename, 'wb') as f:
+            with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
 
             await ctx.send('''Joueur {0} déplacé à l'emplacement {1}'''.format(pseud_temp, j), delete_after=10)
@@ -208,7 +218,7 @@ class Joueurs(commands.Cog):
     #async def modifjoueur(self, ctx, *args):
     async def modifjoueur(self, ctx, alias, attr, val):
         try:
-            assert attr in ['statut', 'draps', 'prenom', 'pseudo', 'twitter', 'fc', 'anniv', 'num', 'exteams']
+            assert attr in ['statut', 'draps', 'prenom', 'pseudo', 'twitter', 'fc', 'anniv', 'num', 'exteams', 'id']
             i = alias_to_ind(alias)
             if len(i)>1:
                 await ctx.send('Trop de joueurs correspondent à cet alias.', delete_after=10)
@@ -226,6 +236,8 @@ class Joueurs(commands.Cog):
                         day=int(val[0:2])
                     )
                 )
+            elif attr == 'id': # id_discord
+                setattr(listejoueurs[i], 'id_discord', int(val))
             elif attr == 'statut':
                 setattr(listejoueurs[i], attr, val.lower())
             else:
@@ -233,7 +245,7 @@ class Joueurs(commands.Cog):
                 if attr == 'pseudo':
                     listejoueurs[i].alias[0] = val
 
-            with open(pickle_filename, 'wb') as f:
+            with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
 
             await ctx.send('{0} de {1} modifié'.format(attr, listejoueurs[i].pseudo))
@@ -293,7 +305,10 @@ class Joueurs(commands.Cog):
         if not os.path.isdir('images'):
             os.mkdir('images')
 
-        font_sizes = {1 : 60, 2 : 60, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14}
+        font_sizes = {
+            1 : 60, 2 : 60, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 
+            7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14
+        }
         colors = {'m' : (0, 179, 255), 's' : (228, 180, 0)}
         font = 'RobotoMono-Regular.ttf'
 
@@ -308,7 +323,7 @@ class Joueurs(commands.Cog):
 
         template_im = template_im.convert('RGB')
     
-        #delete all images before creating new ones
+        # Delete all images before creating new ones
         for f in os.listdir('images'):
             os.remove('images/'+f)
 
@@ -361,9 +376,98 @@ class Joueurs(commands.Cog):
             for alias in args[1:]:
                 if alias not in joueur.alias:
                     joueur.alias.append(alias)
-            with open(pickle_filename, 'wb') as f:
+            with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
             await ctx.send('Alias ajoutés.', delete_after=20)
+        
+    @commands.command(name='alias-')
+    async def aliasm(self, ctx, alias, *aliases):
+        ind = alias_to_ind(alias)
+
+        if len(ind) == 0:
+            await ctx.send('Aucun joueur trouvé.', delete_after=20)
+            return
+        
+        assert len(ind) == 1
+        joueur = listejoueurs[ind[0]]
+
+        for a in aliases:
+            try:
+                joueur.alias.remove(a)
+            except:
+                continue
+        await ctx.send('Alias supprimés.', delete_after=20)
+
+    @commands.command(name='id')
+    # Commande test pour afficher les id discord des joueurs du registre renseignés
+    async def id_(self, ctx):
+        tabulate_ = [['N°', 'Pseudo', 'ID']]
+        for i, joueur in enumerate(listejoueurs):
+            tabulate_.append([i, joueur.pseudo, joueur.id_discord])
+        output = tabulate(tabulate_, headers='firstrow')
+        await ctx.send('```{0}```'.format(output), delete_after=30)
+
+
+
+    # --------------------- #
+    #         TASKS         #
+    # --------------------- #
+
+    @tasks.loop(hours=24)
+    async def affiche_anniversaires(self):
+        print('tâche anniv')
+        chan = self.bot.get_channel(380290663259832320) #annonces
+        #chan = self.bot.get_channel(930934616485949500) #Zorimbot commands
+
+
+        today = datetime.date.today()
+        naissance_JPP = datetime.date(year=2017, month=10, day=23)
+
+        # Check si anniv JPP
+        if naissance_JPP.replace(year=today.year) == today:
+            L_ = [
+                'Première', 'Deuxième', 'Troisième', 'Quatrième', 'Cinquième',
+                'Sixième', 'Septième', 'Huitième', 'Neuvième', 'Dixième',
+                'Onzième', 'Douzième', 'Treizième', 'Quatorzième', 'Quinzième',
+                'Seizième', 'Dix-septième', 'Dix-huitième', 'Dix-neuvième', 'Vingtième'
+            ]
+            age = today.year - naissance_JPP.year
+            await chan.send('{0} année de la JPP sans disband, GG à tosu'.format(L_[age-1]))
+
+        # Check si anniv joueur
+        def filter_anniv(joueur):
+            return joueur.anniv.replace(year=today.year) == today
+
+        listejoueurs_anniv = list(filter(filter_anniv, listejoueurs))
+
+        if listejoueurs_anniv == []:
+            return
+        
+        output = ':birthday: Joyeux anniversaire'
+        for joueur in listejoueurs_anniv:
+            age = today.year - joueur.anniv.year
+            if joueur.id_discord != None:
+                designe = '<@{0}>'.format(joueur.id_discord)
+            else:
+                designe = joueur.pseudo
+            output += '\n{0} ({1})'.format(designe, age)
+        
+        await chan.send(output)
+        return
+
+    
+    @affiche_anniversaires.before_loop
+    async def affiche_anniversaires_before_loop(self):
+        await self.bot.wait_until_ready()
+
+        tz = timezone('Europe/Paris')
+        now = datetime.datetime.now(tz)
+        next_run = now.replace(hour=0, minute=0, second=0)
+
+        if next_run < now:
+            next_run += datetime.timedelta(days=1)
+        if True: # to debug
+            await discord.utils.sleep_until(next_run)
 
 def setup(bot):
     bot.add_cog(Joueurs(bot))
