@@ -2,6 +2,7 @@ __pycache__/
 generated_images/
 pickles/
 Tables/
+text_files/
 Extensions/Cogs/__pycache__/
 Extensions/AutoResponder/__pycache__/
 Extensions/AutoResponder/secret.py
