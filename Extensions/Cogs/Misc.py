@@ -26,7 +26,7 @@ class Misc(commands.Cog):
     @commands.command(name='teps')
     async def teps(self, ctx):
         await ctx.send(
-            file = discord.File(random.choice(['prout/{0}'.format(file) for file in os.listdir('prout')])), 
+            file = discord.File(random.choice(['Assets/prout/{0}'.format(file) for file in os.listdir('prout')])), 
             delete_after = 10
         )
     

@@ -1,3 +1,4 @@
+from wsgiref.handlers import IISCGIHandler
 import discord
 from discord.ext import commands
 from discord.ext import tasks
@@ -415,10 +416,9 @@ class Joueurs(commands.Cog):
 
     @tasks.loop(hours=24)
     async def affiche_anniversaires(self):
-        print('tâche anniv')
         #chan = self.bot.get_channel(930934616485949500) #zormibot_cmd
         chan = self.bot.get_channel(380290663259832320) #annonces
-        await self.bot.get_channel(930934616485949500).send('tâche anniv')
+        await chan.send('tâche anniv')
 
         tz = timezone('Europe/Paris')
         today = datetime.datetime.now(tz).date()

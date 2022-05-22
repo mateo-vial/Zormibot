@@ -1,0 +1,12 @@
+--------- Usage ---------
+{0}swapjoueurs <N°1> <N°2>
+
+alias : 
+{0}swapj
+
+------- Arguments -------
+<N°1> : Numéro du premier joueur
+<N°2> : Numéro du deuxième joueur
+
+------ Description ------
+Échange deux joueurs de place dans la liste des joueurs.

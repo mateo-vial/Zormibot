@@ -1,0 +1,11 @@
+--------- Usage ---------
+{0}listejoueurs
+
+alias : 
+{0}lj
+
+------- Arguments -------
+Aucun
+
+------ Description ------
+Affiche la liste compacte des joueurs de l'équipe.

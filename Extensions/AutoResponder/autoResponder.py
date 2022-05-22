@@ -18,7 +18,7 @@ class MyCog(commands.Cog):
 
         # tag
         if toggles['tag'] and 135495101496426496 in [user.id for user in message.mentions] and message.author.id != 135495101496426496:
-            await message.channel.send('{0.author.name}, ne dérange pas le boss.'.format(message),delete_after=10)
+            await message.channel.send('{0.author.name}, ne dérange pas le boss.'.format(message), delete_after=10)
 
         # Bob l'éponge
         if toggles['bobleponge'] and random.randrange(1200) == 0:
@@ -28,11 +28,11 @@ class MyCog(commands.Cog):
                     output += char.swapcase()
                 else:
                     output += char
-            await message.channel.send(output, file = discord.File('bob.jpg'),delete_after=10)
+            await message.channel.send(output, file=discord.File('Assets/bob.jpg'), delete_after=10)
 
         # T'ecris bcp
         if toggles['tecrisbcp'] and len(message.content) > 200 and random.randrange(10) == 0:
-            await message.channel.send(file = discord.File('tecrisbcp/' + random.choice(os.listdir('tecrisbcp'))), delete_after=10)
+            await message.channel.send(file=discord.File('Assets/tecrisbcp/' + random.choice(os.listdir('tecrisbcp'))), delete_after=10)
 
         # PTG
         if toggles['ptg'] and random.randrange(1000) == 0:
@@ -40,7 +40,7 @@ class MyCog(commands.Cog):
 
         # Feur
         if toggles['feur'] and random.randrange(20) == 0 and ''.join(c for c in message.content if c.isalpha()).lower().endswith('quoi'):
-            await message.channel.send(file = discord.File('feur/' + random.choice(os.listdir('feur'))),delete_after=10)
+            await message.channel.send(file=discord.File('Assets/feur/' + random.choice(os.listdir('feur'))), delete_after=10)
         
         
 def setup(bot):
