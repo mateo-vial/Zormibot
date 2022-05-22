@@ -1,0 +1,35 @@
+  N°  Drapeaux     Pseudo      Prénom     Twitter         FC                 Anniv              Num  Ex-teams
+----  -----------  ----------  ---------  --------------  -----------------  ----------  ----------  -----------------------------------
+   0  fr,es,it     Gab         Gabriel    @sltcgabz       SW-3831-4828-5593  10/10/2000  0652914850  мω,TP
+   1  fr,pt,tn,il  Dydy        Dylan      @Dydylebro      SW-1315-2991-2419  03/08/1998              FdP,DJULO
+   2  fr           Zorm        Mateo      @Zormuche       SW-4149-3000-5733  21/03/2001              FdP
+   3  fr,ar        Hamano      Romain     @Hamanofv       SW-1455-7221-0922  21/11/2000              FN,♪
+   4  fr           Gity        Alexandre  @GityMK         SW-5545-5192-1910  24/10/2002  0782363624  GS,Sz/Fz,βρα
+   5  fr,gb        Retseewt    Lucas      @lebret_lucas   SW-4046-3432-6044  29/11/2001              sтс,RB
+   6  fr,pl                    Thomas     @_Th0mK         SW-5552-9354-7027  16/06/2003              βρα,RB
+   7  fr,tn        Crunchy     Selim      @crqnchy        SW-0501-5982-8804  21/08/2002              RB,S7
+   8  fr           Arukay      Arthur     @Arukayy        SW-4896-9468-6185  26/04/2001              sтс,ὡƒ,DJULO,S7
+   9  fr           Mimi        Jérémy     @mimisicu77     SW-1128-3074-7332  17/11/1997  0610699147  βρα,мкс,Pм,ὡƒ
+  10  fr           h3ylloo     Ludwig     @h3ylloo        SW-4461-8905-0510  24/10/1999              NR
+  11  fr           Gabliator   Gabin      @Gabliator      SW-2487-2562-0319  26/07/2005              アα
+  12  fr,mq        Ama         Mathias    @Amaterawu      SW-4923-3898-5578  15/01/2008  0768551425  Sz,KW,Zv
+  13  fr,pl        Putofsky    Thomas     @Putofsky1      SW-0723-0064-6917  25/03/2001              sтс,KW,нo,LA☆
+  14  fr,it        Koala       Alexandre  @AlexArb38      SW-5567-2137-7212  09/05/1997  0770069712  SnS,FdP
+  15  fr           Muffin      Julian     @MuffinsMan59   SW-5893-3777-9868  26/02/2002  0629643908  sтс
+  16  fr,es                    Louka      @LoukaMK8DX     SW-5387-6081-9710  13/12/2004              sтс,RF
+  17  fr,vn,de     Lariatvn    Antoine    @Lrtkbn         SW-4947-6000-8418  27/03/2005              ĐB
+  18  fr,gb,it                 Océan                      SW-5815-1232-9903  01/03/1999              xa。,ΛD
+  19  fr           Kaegs       Kaelig     @Kaegs2         SW-5203-8917-5309  13/05/2000              MBA,Μα
+  20  fr,ma        Mickey      Enzo       @Mickeyechi_    SW-8263-9172-3431  28/12/2004              HMR,CG,ID,ID2,Bz,PoD,sтс,zı,NFO,LA☆
+  21  fr,th        Pampo       Nicolas                    SW-7433-2824-1901  26/06/2001              4チ,sтс,アα,LA☆
+  22  fr,mg        Newzar      Anaëlle    @Newzar_        SW-1018-4363-2529  03/01/2004              Gı,RB
+  23  fr           SimonF      Simon      @SimonstreF     SW-1819-7014-7602  06/07/2007              ¿,RF,Μα,Ðи
+  24  be           future      Mathieu    @Futuremk7      SW-1462-8509-5505  12/02/2003              ρr
+  25  fr           Flo         Florian    @bFlo17         SW-0599-0489-7580  17/02/2001              Aucune
+  26  fr           Teihko      Romain                     SW-4001-6221-0367  06/02/2006              ĐŽ
+  27  fr           Alga        Romain     @Alga_RL        SW-4342-2529-8899  19/09/2002              RF
+  28  fr           OpHio       Jordan                     SW-5751-2151-2148  05/01/2002              ÐBz
+  29  fr           POPOP       Mario      @POPOP_170      SW-1158-0986-4595  10/12/2008              ŁW
+  30  fr           Tête2noeud  Tom        @tom_souverain  SW-0990-5441-8614  11/02/2006              ρr
+  31  fr,dz        Wooden      Yanis      @WoodenMK       SW-7833-8687-1001  23/02/2005              ρr
+  32  fr           Zedrum      Yann-Maël  @zedrum_        SW-4933-0540-9902  16/10/2003              YF,Mα,нo
