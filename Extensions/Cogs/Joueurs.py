@@ -416,9 +416,9 @@ class Joueurs(commands.Cog):
 
     @tasks.loop(hours=24)
     async def affiche_anniversaires(self):
-        #chan = self.bot.get_channel(930934616485949500) #zormibot_cmd
-        chan = self.bot.get_channel(380290663259832320) #annonces
-        await chan.send('tâche anniv')
+        chan_zormibot = self.bot.get_channel(978028182684971008) #zormibot_cmd
+        chan_annonces = self.bot.get_channel(380290663259832320) #annonces
+        await chan_zormibot.send('tâche anniv')
 
         tz = timezone('Europe/Paris')
         today = datetime.datetime.now(tz).date()
@@ -433,7 +433,7 @@ class Joueurs(commands.Cog):
                 'Seizième', 'Dix-septième', 'Dix-huitième', 'Dix-neuvième', 'Vingtième'
             ]
             age = today.year - naissance_JPP.year
-            await chan.send('{0} année de la JPP sans disband, GG à tosu'.format(L_[age-1]))
+            await chan_annonces.send('{0} année de la JPP sans disband, GG à tosu'.format(L_[age-1]))
 
         # Check si anniv joueur
         def filter_anniv(joueur):
@@ -453,7 +453,7 @@ class Joueurs(commands.Cog):
                 designe = joueur.pseudo
             output += '\n{0} ({1})'.format(designe, age)
         
-        await chan.send(output)
+        await chan_annonces.send(output)
         return
 
     
