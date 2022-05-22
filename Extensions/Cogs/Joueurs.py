@@ -416,11 +416,12 @@ class Joueurs(commands.Cog):
     @tasks.loop(hours=24)
     async def affiche_anniversaires(self):
         print('tâche anniv')
+        #chan = self.bot.get_channel(930934616485949500) #zormibot_cmd
         chan = self.bot.get_channel(380290663259832320) #annonces
-        #chan = self.bot.get_channel(930934616485949500) #Zorimbot commands
+        await self.bot.get_channel(930934616485949500).send('tâche anniv')
 
-
-        today = datetime.date.today()
+        tz = timezone('Europe/Paris')
+        today = datetime.datetime.now(tz).date()
         naissance_JPP = datetime.date(year=2017, month=10, day=23)
 
         # Check si anniv JPP
@@ -462,7 +463,7 @@ class Joueurs(commands.Cog):
 
         tz = timezone('Europe/Paris')
         now = datetime.datetime.now(tz)
-        next_run = now.replace(hour=0, minute=0, second=0)
+        next_run = now.replace(hour=0, minute=0, second=10)
 
         if next_run < now:
             next_run += datetime.timedelta(days=1)

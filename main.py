@@ -12,6 +12,7 @@ random.seed(3)
 # -------------------------------------------------------- #
 # RECUPERATION DU FICHIER PICKLE POUR LA LISTE DES JOUEURS #
 # et aussi du counter :)                                   #
+# + variables                                              #
 # -------------------------------------------------------- #
 
 listejoueurs_filename = 'pickles/listejoueurs'
@@ -44,8 +45,11 @@ listecommandes = [
     'modifjoueur',
     'tl',
     'submit',
-    'startwar'
+    'startwar',
+    'toggle'
 ]
+
+toggles = {'tag': False, 'bobleponge': False, 'tecrisbcp': False, 'ptg': False, 'feur': False, 'ne': False, 'chatting': False}
 
  
 # ------------------------------------------------------- #
@@ -65,7 +69,7 @@ with open('token.txt', 'r') as f:
 
 
 # ----------------------------- #
-#          BOT LAUNCH           #
+#          BOT DEFINE           #
 # ----------------------------- #
 
 bot = commands.Bot(command_prefix='$',  help_command=None)
@@ -73,13 +77,6 @@ bot = commands.Bot(command_prefix='$',  help_command=None)
 @bot.event
 async def on_ready():
     print('Le bot est prêt.')
-   
-#Unmute Zorm
-#@bot.event
-#async def on_voice_state_update(member, before, after):
-#    if member.id == 135495101496426496:
-#        if after.mute:
-#            await member.edit(mute=False)
 
 # ----------------------------- #
 #          EXTENSIONS           #
@@ -110,6 +107,9 @@ async def help(ctx, *args):
             output = '''Cette commande n'existe pas.'''
     await ctx.send(output, delete_after=30)
 
+
+# pip install -U git+https://github.com/Rapptz/discord.py
+# pip install -U discord.py==1.7.3
 
 bot.run(TOKEN)
 

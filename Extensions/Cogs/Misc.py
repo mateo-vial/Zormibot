@@ -4,7 +4,12 @@ import random
 import os
 from tabulate import tabulate
 
-from main import adminlist, chancmdlist
+from main import adminlist, chancmdlist, toggles
+
+def is_me():
+    def predicate(ctx):
+        return ctx.message.author.id == 135495101496426496
+    return commands.check(predicate)
 
 class Misc(commands.Cog):
     def __init__(self, bot):
@@ -25,10 +30,13 @@ class Misc(commands.Cog):
             delete_after = 10
         )
     
+    @is_me()
     @commands.command(name='stop')
     async def stop(self, ctx):
-        assert ctx.author.id in adminlist
-        await ctx.send('Ciao.')
+        try:
+            await ctx.send('Ciao.')
+        except: 
+            print('permission message manquant')
         exit()
 
     @commands.command()
@@ -93,10 +101,34 @@ class Misc(commands.Cog):
 
         await ctx.send('War terminé.')
         return
-    
-    @commands.command(name='zormibot-a-la-rescousse')
-    async def zormibot_a_la_rescousse(self, ctx):
-        await ctx.send('*tt ryv objective 2:01.603')
+
+    @is_me()
+    @commands.command(name='toggle')
+    async def toggle(self, ctx, fonctionnalite=None):
+        if fonctionnalite in toggles:
+            toggles[fonctionnalite] = not toggles[fonctionnalite]
+            if toggles[fonctionnalite]:
+                mot = 'activé'
+            else:
+                mot = 'désactivé'
+            await ctx.send('{0} {1}'.format(fonctionnalite, mot), delete_after=20)
+            return 
+
+        if fonctionnalite == None:
+            table = [['Fonctionnalité', 'État']]
+            for fonc in toggles:
+                table.append([fonc, toggles[fonc]])
+            output = tabulate(table, headers='firstrow', tablefmt='simple')
+            await ctx.send('```{0}```'.format(output), delete_after=20)
+            return
+
+        await ctx.send('fonctionnalité erronée.', delete_after=10)
+        return
+
+    @commands.command(name='version')
+    async def version(self, ctx):
+        await ctx.send(discord.__version__, delete_after=20)
+        
         
 def setup(bot):
     bot.add_cog(Misc(bot))

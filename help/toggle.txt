@@ -1,0 +1,11 @@
+--------- Usage ---------
+{0}toggle
+{0}toggle <fonctionnalité>
+
+------- Arguments -------
+<fonctionnalité> : fonctionnalité à modifier
+	tag | bobleponge | tecrisbcp | ptg | feur | ne
+
+------ Description ------
+Affiche l'état des fonctionnalités
+Switche l'état de la fonctionnalité spécifiée
