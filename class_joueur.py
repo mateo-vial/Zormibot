@@ -3,7 +3,7 @@ class Joueur():
         """
         Je pars du principe que les champs draps, prenom, fc et anniv sont forcément renseignés
         """
-        self.statut = statut.lower() # 'm' ou 's' pour membre/stagiaire
+        self.statut = statut.lower() # 'm' ou 's' pour membre/stagiaire ou 'r' pour retraité
 
         self.draps = draps # list of strings
 
@@ -93,7 +93,11 @@ class Joueur():
         output = ''
 
         # Symbole stagiaire/membre
-        emojidict = {'m' : ':blue_circle:', 's' : ':yellow_circle:'}
+        emojidict = {
+            'm' : ':blue_circle:', 
+            's' : ':yellow_circle:', 
+            'r': ':orange_circle:'
+        }
         output += emojidict[self.statut.lower()] + '  ' #espace insecable
 
         # drapeaux

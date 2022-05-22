@@ -41,7 +41,7 @@ class Joueurs(commands.Cog):
         assert ctx.channel.id in chancmdlist
         try:
             listejoueurs.append(Joueur(
-                statut = statut.lower(), #'M' ou 'S' ou 'm' ou 's'
+                statut = statut.lower(), #'M' ou 'S' ou 'm' ou 's'  ou 'R' ou 'r'
                 draps = draps.split(','),
                 pseudo = pseudo,
                 prenom = prenom,
