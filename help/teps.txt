@@ -1,8 +1,0 @@
---------- Usage ---------
-{0}teps
-
-------- Arguments -------
-Aucun
-
------- Description ------
-Pète.

@@ -1,0 +1,9 @@
+--------- Usage ---------
+{0}help <commande>
+
+------- Arguments -------
+<commande> : Nom de la commande dont on veut afficher l'aide.
+	Exemple : ajouterjoueurs
+
+------ Description ------
+Affiche l'aide concernant la commande choisie.

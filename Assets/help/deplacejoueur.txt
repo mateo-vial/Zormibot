@@ -1,0 +1,13 @@
+--------- Usage ---------
+{0}deplacejoueur <N°> <emplacement>
+
+alias : 
+{0}dj
+
+------- Arguments -------
+<N°> : Numéro du joueur à déplacer
+<emplacement> : Numéro de l'emplacement où déplacer le joueur
+
+------ Description ------
+Déplace un joueur dans la liste des joueurs.
+Les joueurs intermédiaires sont tous décalés d'une place.

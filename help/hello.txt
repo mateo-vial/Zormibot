@@ -1,8 +1,0 @@
---------- Usage ---------
-{0}hello
-
-------- Arguments -------
-Aucun
-
------- Description ------
-Dit bonjour.

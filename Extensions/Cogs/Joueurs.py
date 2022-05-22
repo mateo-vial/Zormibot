@@ -1,3 +1,4 @@
+from wsgiref.handlers import IISCGIHandler
 import discord
 from discord.ext import commands
 from discord.ext import tasks
@@ -302,15 +303,15 @@ class Joueurs(commands.Cog):
     async def tierlist(self, ctx, mode='pseudo'):
         assert ctx.author.id in adminlist
 
-        if not os.path.isdir('images'):
-            os.mkdir('images')
+        if not os.path.isdir('generated_images'):
+            os.mkdir('generated_images')
 
         font_sizes = {
             1 : 60, 2 : 60, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 
             7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14
         }
         colors = {'m' : (0, 179, 255), 's' : (228, 180, 0)}
-        font = 'RobotoMono-Regular.ttf'
+        font = 'Assets/RobotoMono-Regular.ttf'
 
         size = (128,128)
         bordersize = 4
@@ -324,8 +325,8 @@ class Joueurs(commands.Cog):
         template_im = template_im.convert('RGB')
     
         # Delete all images before creating new ones
-        for f in os.listdir('images'):
-            os.remove('images/'+f)
+        for f in os.listdir('generated_images'):
+            os.remove('generated_images/' + f)
 
         for joueur in listejoueurs:
             template_copy = copy(template_im)
@@ -340,7 +341,7 @@ class Joueurs(commands.Cog):
             my_font = ImageFont.truetype(font, font_sizes[len(text)])
             d.text((10, center), text, fill=colors[joueur.statut.lower()], font = my_font)
 
-            template_copy.save('images/' + joueur.pseudo + '.png')
+            template_copy.save('generated_images/' + joueur.pseudo + '.png')
     
         await ctx.send('TL générée :+1:')
 
@@ -415,10 +416,9 @@ class Joueurs(commands.Cog):
 
     @tasks.loop(hours=24)
     async def affiche_anniversaires(self):
-        print('tâche anniv')
         #chan = self.bot.get_channel(930934616485949500) #zormibot_cmd
         chan = self.bot.get_channel(380290663259832320) #annonces
-        await self.bot.get_channel(930934616485949500).send('tâche anniv')
+        await chan.send('tâche anniv')
 
         tz = timezone('Europe/Paris')
         today = datetime.datetime.now(tz).date()

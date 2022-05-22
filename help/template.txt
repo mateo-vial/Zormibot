@@ -1,8 +1,0 @@
---------- Usage ---------
-{0}blabla
-
-alias : 
-
-------- Arguments -------
-
------- Description ------

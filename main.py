@@ -56,13 +56,13 @@ toggles = {'tag': False, 'bobleponge': False, 'tecrisbcp': False, 'ptg': False, 
 # RECUPERATION DES FICHIERS ADMIN ET CHANCOMMAND ET TOKEN #
 # ------------------------------------------------------- #
 
-with open('admin.txt', mode='r', encoding='utf-8') as f:
+with open('text_files/admin.txt', mode='r', encoding='utf-8') as f:
     adminlist = [int(line.split()[0]) for line in f.readlines()]
     # edit admin.txt to edit admins
-with open('chancmd.txt', mode='r', encoding='utf-8') as f:
+with open('text_files/chancmd.txt', mode='r', encoding='utf-8') as f:
     chancmdlist = [int(line.split()[0]) for line in f.readlines()]
     # edit chancmd.txt to edit channels
-with open('token.txt', 'r') as f:
+with open('text_files/token.txt', 'r') as f:
     TOKEN = f.read()
     # token.txt
 
@@ -101,7 +101,7 @@ async def help(ctx, *args):
         output += '```'
     elif len(args) >= 1:
         try:
-            with open('help/{0}.txt'.format(args[0]), encoding='utf-8') as f:
+            with open('Assets/help/{0}.txt'.format(args[0]), encoding='utf-8') as f:
                 output = '```{0}```'.format(f.read().format(bot.command_prefix))
         except:
             output = '''Cette commande n'existe pas.'''
