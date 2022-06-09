@@ -9,11 +9,11 @@ random.seed(3)
 
 
 
-# -------------------------------------------------------- #
+############################################################
 # RECUPERATION DU FICHIER PICKLE POUR LA LISTE DES JOUEURS #
 # et aussi du counter :)                                   #
 # + variables                                              #
-# -------------------------------------------------------- #
+############################################################
 
 listejoueurs_filename = 'pickles/listejoueurs'
 counter_table_filename = 'pickles/counter_table'
@@ -30,14 +30,14 @@ counter_table = file_load(counter_table_filename, default_value=[[0, 0, 0], [0, 
 
 
 listecommandes = [
-    'hello', 
-    'help', 
-    'ajouterjoueur', 
-    'listejoueurs', 
-    'supprimerjoueur', 
+    'hello',
+    'help',
+    'ajouterjoueur',
+    'listejoueurs',
+    'supprimerjoueur',
     'deplacejoueur',
-    'teps', 
-    'swapjoueurs', 
+    'teps',
+    'swapjoueurs',
     'stop',
     'naissances',
     'anniversaires',
@@ -49,12 +49,20 @@ listecommandes = [
     'toggle'
 ]
 
-toggles = {'tag': False, 'bobleponge': False, 'tecrisbcp': False, 'ptg': False, 'feur': False, 'ne': False, 'chatting': False}
+toggles = {
+    'tag': False,
+    'bobleponge': False,
+    'tecrisbcp': False,
+    'ptg': False,
+    'feur': False,
+    'ne': False,
+    'chatting': False
+}
 
- 
-# ------------------------------------------------------- #
+
+###########################################################
 # RECUPERATION DES FICHIERS ADMIN ET CHANCOMMAND ET TOKEN #
-# ------------------------------------------------------- #
+###########################################################
 
 with open('text_files/admin.txt', mode='r', encoding='utf-8') as f:
     adminlist = [int(line.split()[0]) for line in f.readlines()]
@@ -68,19 +76,19 @@ with open('text_files/token.txt', 'r') as f:
 
 
 
-# ----------------------------- #
-#          BOT DEFINE           #
-# ----------------------------- #
+##############
+# BOT DEFINE #
+##############
 
 bot = commands.Bot(command_prefix='$',  help_command=None)
-
 @bot.event
 async def on_ready():
     print('Le bot est prêt.')
 
-# ----------------------------- #
-#          EXTENSIONS           #
-# ----------------------------- #
+
+##############
+# EXTENSIONS #
+##############
 
 for (path, dirs, files) in os.walk('Extensions'):
     for file in files:
@@ -88,9 +96,10 @@ for (path, dirs, files) in os.walk('Extensions'):
             extension_name = re.sub('/|\\\\', '.', path) + '.' + file[:-3]
             bot.load_extension(extension_name)
 
-# ------------------------- #
-#       SOME COMMANDS       #
-# ------------------------- #
+
+#################
+# SOME COMMANDS #
+#################
 
 @bot.command()
 async def help(ctx, *args):

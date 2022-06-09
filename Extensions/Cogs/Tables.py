@@ -27,7 +27,7 @@ class Tables(commands.Cog):
 
         # Wait for message for style argument
         await ctx.send('Style (default/dark/mku) ? (10s)')
-        
+
         def check1(m):
             return (m.content in ['mku', 'dark', 'default']) and (m.author == ctx.author)
 
@@ -37,7 +37,7 @@ class Tables(commands.Cog):
         except:
             await ctx.send('style default car tu es long.')
             style = 'default'
-        
+
         # Split each word in each line
         lines = [line.split() for line in data.split('\n')]
 
@@ -53,13 +53,13 @@ class Tables(commands.Cog):
                 ind_score = 2 # the score will be in index 2
             else:
                 ind_score = 1 # the score is in index 1
-            
+
             if i<size:
                 total_home += int(line[ind_score])
             else:
                 total_adv += int(line[ind_score])
 
-            if '+' in line[ind_score]: # 
+            if '+' in line[ind_score]:
                 line[ind_score] = str(sum([int(num) for num in line[ind_score].split('+')]))
 
         total = total_home + total_adv
@@ -80,13 +80,14 @@ class Tables(commands.Cog):
         print(table_text)
         url_table_text = urllib.parse.quote(table_text)
         image_url = base_url_lorenzi + url_table_text
-        
+
 
         e = discord.Embed(title="Table")
         e.set_image(url=image_url)
         content = "Réagissez avec \U00002611 dans les 30 secondes pour confirmer"
         if total != normal_total[size]:
-            warning = ("Le score total  (%d) est peut être incorrect ! Le tableau devrait avoir un total de %d points"
+            warning = ("Le score total  (%d) est peut être incorrect ! "
+                       "Le tableau devrait avoir un total de %d points"
                        % (total, normal_total[size]))
             e.add_field(name="Warning", value=warning)
         embedded = await ctx.send(content=content, embed=e)
@@ -122,7 +123,7 @@ class Tables(commands.Cog):
             # chan = self.bot.get_channel(930934616485949500)
 
             await embedded.delete()
-            
+
             # Increment counter and generate title name
             if mode == 'intra':
                 counter_table[2] += 1
@@ -131,22 +132,22 @@ class Tables(commands.Cog):
                 path_ = ''
                 chan = self.bot.get_channel(815641948776955905)
             else:
-                if mode == 'friendly': 
+                if mode == 'friendly':
                     ind_incr = 0
                     chan = self.bot.get_channel(815641948776955905)
-                elif mode == 'offi': 
+                elif mode == 'offi':
                     ind_incr = 1
                     chan = self.bot.get_channel(815647761528520715)
 
-                if total_home > total_adv: 
+                if total_home > total_adv:
 
                     # WIN
                     counter_table[ind_incr][0] += 1
                     count_temp = counter_table[ind_incr][0]
                     title = 'Win #{0} vs {1}'.format(counter_table[ind_incr][0], adv)
                     path_ = 'win/'
-                    
-                elif total_home < total_adv: 
+
+                elif total_home < total_adv:
 
                     # LOSE
                     counter_table[ind_incr][2] += 1
@@ -154,7 +155,7 @@ class Tables(commands.Cog):
                     title = 'Lose #{0} vs {1}'.format(counter_table[ind_incr][2], adv)
                     path_ = 'lose/'
 
-                else:          
+                else:
 
                     # TIE
                     counter_table[ind_incr][1] += 1
@@ -180,11 +181,11 @@ class Tables(commands.Cog):
                 urllib.request.urlretrieve(image_url, 'Tables/{0}/{1}{2}.jpg'.format(mode, path_, count_temp))
 
             return
-    
+
     @commands.has_role('JPP')
     @commands.command()
     async def counter(self, ctx, *args):
-        # counter 
+        # counter
         # counter intra 0
         # counter friendly 0 0 0
         # counter offi 0 0 0
@@ -192,7 +193,7 @@ class Tables(commands.Cog):
         if len(args) == 0:
             await ctx.send('Le compteur est à : {0}'.format(counter_table))
             return
-        
+
         elif len(args) == 2:
             assert args[0] == 'intra'
             war_type = args[0]
@@ -202,15 +203,15 @@ class Tables(commands.Cog):
                 pickle.dump(counter_table, f)
             await ctx.send('Compteur réglé à {0}'.format(counter_table[2]))
             return
-        
+
         elif len(args) == 4:
             war_type = args[0]
             win, tie, lose = int(args[1]), int(args[2]), int(args[3])
 
-        if war_type == 'friendly': 
+        if war_type == 'friendly':
             i=0
             chan = self.bot.get_channel(815641948776955905)
-        elif war_type == 'offi': 
+        elif war_type == 'offi':
             i=1
             chan = self.bot.get_channel(815647761528520715)
 

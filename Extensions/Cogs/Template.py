@@ -10,5 +10,6 @@ class Template(commands.Cog):
     async def cmd1(self, ctx, *args):
         await ctx.send('Commande test. Arguments : {0}. Delete after 5.'.format(args), delete_after=5)
 
+
 def setup(bot):
     bot.add_cog(Template(bot))
