@@ -131,6 +131,73 @@ class Misc(commands.Cog):
     async def version(self, ctx):
         await ctx.send(discord.__version__, delete_after=20)
 
+    @commands.command(name='randomcompo')
+    async def randomcompo(self, ctx, N_compos: int):
+        if N_compos > 10:
+            await ctx.send('10 compos max.', delete_after=15)
+            return
+
+        characters = [
+            'Mario', 'Luigi', 'Peach',
+            'Daisy', 'Harmonie', 'Mario Tanuki',
+            'Peach Chat', 'Yoshi', 'Toad',
+            'Koopa', 'Maskass', 'Lakitu',
+            'Toadette', 'Roi Boo', 'Bébé Mario',
+            'Bébé Luigi', 'Bébé Peach', 'Bébé Daisy',
+            'Bébé Harmonie', 'Mario de métal', "Peach d'or rose",
+            'Wario', 'Waluigi', 'Donkey Kong',
+            'Bowser', 'Skelerex', 'Bowser Jr.',
+            'Bowser Skelet', 'Lemmy', 'Larry',
+            'Wendy', 'Ludwig', 'Iggy',
+            'Roy', 'Morton', 'Inkling Girl',
+            'Inkling Boy', 'Link', 'Villageois',
+            'Villageoise', 'Marie', 'Mii'
+        ]
+        vehicles = [
+            'Kart Standard', 'Rétro', 'Proto 8',
+            'Nautomobile', 'Chabriolet', 'Mach-célère',
+            'Tubul-R3', 'Beatmobile', 'Cavalkart',
+            'Paracoccinelly', 'Caravéloce', 'Sneakart',
+            'Propulsar', 'Kart Doré', 'GLA',
+            "W 25 Flèche d'Argent", '300 SL Roadster', 'Blue Falcon',
+            'Kart Tanuki', 'Intrépide', 'Autorhino',
+            'Magikart', 'Koopamobile',
+            'Moto Standard', 'Cyber-Trombe', 'Flamboyante',
+            'Méca-bécane', 'Scootinette', 'Destrier de Légende 0.1',
+            'Scooter AC',
+            'Météore', 'Sport GP', 'Épervier',
+            'Yoshimoto', 'Destrier de Légende',
+            'Quad Standard', 'Quad Wiggler', 'Quad Nounours',
+            'Malécycle', 'Kartoon', 'Missile tornade'
+        ]
+        tyres = [
+            'Standard', 'Mastoddonte', 'Roller',
+            'Classique', 'Lisse', 'Métal',
+            'Roue Bouton', 'Hors-piste', 'Éponge',
+            'Bois', 'Coussin', 'Standard bleu',
+            'Masto-flammes', 'Roller Azur', 'Classique rouge',
+            'Cyber-lisse', 'Hors-piste Rétro', 'Roue en or',
+            'GLA', 'Triforce', 'Archéonique',
+            'Roue Feuillee'
+        ]
+        gliders = [
+            'Standard', 'Aile Nuages', 'Aile Wario',
+            'Dendinaile', 'Ombrelle Peach', 'Parachute',
+            'Parapente', 'Aile Fleurie', 'Bowser-volant',
+            'Planeur', 'Parapente MKTV', 'Or',
+            'Aile Hylienne', 'Paravoile', 'Aile en papier'
+        ]
+
+        chosen_characters = random.samples(characters, k=N_compos)
+        chosen_vehicles = random.samples(vehicles, k=N_compos)
+        chosen_tyres = random.samples(tyres, k=N_compos)
+        chosen_gliders = random.samples(gliders, k=N_compos)
+
+        for compo in zip(chosen_characters, chosen_vehicles,
+                         chosen_tyres, chosen_gliders):
+            await ctx.send(', '.join(compo))
+
+        return
 
 def setup(bot):
     bot.add_cog(Misc(bot))
