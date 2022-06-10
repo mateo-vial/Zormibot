@@ -178,7 +178,7 @@ class Misc(commands.Cog):
             'Masto-flammes', 'Roller Azur', 'Classique rouge',
             'Cyber-lisse', 'Hors-piste Rétro', 'Roue en or',
             'GLA', 'Triforce', 'Archéonique',
-            'Roue Feuillee'
+            'Roue Feuille'
         ]
         gliders = [
             'Standard', 'Aile Nuages', 'Aile Wario',
