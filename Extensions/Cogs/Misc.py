@@ -132,7 +132,7 @@ class Misc(commands.Cog):
         await ctx.send(discord.__version__, delete_after=20)
 
     @commands.command(name='randomcompo')
-    async def randomcompo(self, ctx, N_compos: int):
+    async def randomcompo(self, ctx, N_compos: int=1):
         if N_compos > 10:
             await ctx.send('10 compos max.', delete_after=15)
             return
@@ -188,10 +188,10 @@ class Misc(commands.Cog):
             'Aile Hylienne', 'Paravoile', 'Aile en papier'
         ]
 
-        chosen_characters = random.samples(characters, k=N_compos)
-        chosen_vehicles = random.samples(vehicles, k=N_compos)
-        chosen_tyres = random.samples(tyres, k=N_compos)
-        chosen_gliders = random.samples(gliders, k=N_compos)
+        chosen_characters = random.choices(characters, k=N_compos)
+        chosen_vehicles = random.choices(vehicles, k=N_compos)
+        chosen_tyres = random.choices(tyres, k=N_compos)
+        chosen_gliders = random.choices(gliders, k=N_compos)
 
         for compo in zip(chosen_characters, chosen_vehicles,
                          chosen_tyres, chosen_gliders):
