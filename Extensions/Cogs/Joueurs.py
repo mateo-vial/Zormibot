@@ -19,9 +19,9 @@ def alias_to_ind(alias):
     """
     Retourne l'indice du (ou des) joueur(s) dont l'alias input figure dans l'attribut alias
     """
-    try: 
+    try:
         return [int(alias)] # if alias is a number in a string
-    except: 
+    except:
         return [i for i, joueur in enumerate(listejoueurs) if alias.lower() in [a.lower() for a in joueur.alias]]
 
 
@@ -55,7 +55,7 @@ class Joueurs(commands.Cog):
 
             with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
-        
+
             if pseudo == '/':
                 pseud_temp = prenom
             else:
@@ -88,11 +88,11 @@ class Joueurs(commands.Cog):
     async def listejoueurs_(self, ctx): # underscore because listejoueurs is already the list of all players
         table = [['N°', 'Statut', 'Drapeaux', 'Pseudo', 'Prénom', 'Twitter', 'FC', 'Anniv', 'Num', 'Ex-teams']]
         for i, joueur in enumerate(listejoueurs):
-            liste_temp = [i] 
+            liste_temp = [i]
             liste_temp += joueur.liste_affiche()
             table.append(liste_temp)
         output = tabulate(table, headers='firstrow', tablefmt='simple')
-    
+
         try:
             await ctx.send('```{0}```'.format(output), delete_after=30)
         except: # if output too long
@@ -106,7 +106,7 @@ class Joueurs(commands.Cog):
     async def affiche(self, ctx):
         for i in range((len(listejoueurs)+1) // 2):
             output = ''
-            output += listejoueurs[2*i].affiche() 
+            output += listejoueurs[2*i].affiche()
             try:
                 output += listejoueurs[2*i+1].affiche()
             except:
@@ -165,13 +165,13 @@ class Joueurs(commands.Cog):
 
         # On génère l'affiche
         embed = discord.Embed(
-            title=":baby: Naissances",  
+            title=":baby: Naissances",
             color=0xFF5733,
             type='rich'
         )
         for annee in sorted(dict_annees):
             embed.add_field(
-                name=annee, 
+                name=annee,
                 value='```{0}```'.format('\n'.join([joueur.pseudo+' ('+'{:02d}/{:02d}'.format(joueur.anniv.day, joueur.anniv.month)+')' for joueur in dict_annees[annee]])),
                 inline=True
             )
@@ -188,23 +188,23 @@ class Joueurs(commands.Cog):
         dict_mois = {}
         for i in range(12):
             dict_mois[i+1] = []
-    
+
         # Remplissage du dictionnaire
         for joueur in listejoueurs:
             dict_mois[joueur.anniv.month].append(joueur)
-    
+
         # Tri des valeurs du dictionnaire (On se base sur l'année 2004 pour prendre en compte les 29 février)
         for i in dict_mois:
             dict_mois[i].sort(key = lambda joueur: datetime.date(year=2004, month=joueur.anniv.month, day=joueur.anniv.day))
-    
+
         # On génère l'affiche
         embed = discord.Embed(
-            title=":birthday: Anniversaires",  
+            title=":birthday: Anniversaires",
             color=0xFF5733,
             type='rich'
         )
         for i in dict_mois:
-            if len(dict_mois[i])==0:
+            if len(dict_mois[i]) == 0:
                 val = '```\n\n```'
             else:
                 val = '```{0}```'.format('\n'.join([joueur.pseudo+' ('+str(joueur.anniv.day)+')' for joueur in dict_mois[i]]))
@@ -216,10 +216,10 @@ class Joueurs(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(name='modifjoueur', aliases=['mj'])
-    #async def modifjoueur(self, ctx, *args):
     async def modifjoueur(self, ctx, alias, attr, val):
         try:
-            assert attr in ['statut', 'draps', 'prenom', 'pseudo', 'twitter', 'fc', 'anniv', 'num', 'exteams', 'id']
+            assert attr in ['statut', 'draps', 'prenom', 'pseudo', 'twitter',
+                            'fc', 'anniv', 'num', 'exteams', 'id']
             i = alias_to_ind(alias)
             if len(i)>1:
                 await ctx.send('Trop de joueurs correspondent à cet alias.', delete_after=10)
@@ -229,11 +229,11 @@ class Joueurs(commands.Cog):
                 setattr(listejoueurs[i], attr, val.split(','))
             elif attr == 'anniv':
                 setattr(
-                    listejoueurs[i], 
-                    attr, 
+                    listejoueurs[i],
+                    attr,
                     datetime.date(
-                        year=int(val[4:8]), 
-                        month=int(val[2:4]), 
+                        year=int(val[4:8]),
+                        month=int(val[2:4]),
                         day=int(val[0:2])
                     )
                 )
@@ -269,7 +269,7 @@ class Joueurs(commands.Cog):
             return
         output = tabulate(table, headers='firstrow', tablefmt='simple')
         await ctx.send('```{0}```'.format(output), delete_after=30)
-            
+
 
     @commands.command(name='infosjoueurs', aliases=['ij'])
     async def infosjoueurs(self, ctx):
@@ -281,8 +281,8 @@ class Joueurs(commands.Cog):
 
         # Do the embed
         embed=discord.Embed(
-            title="Liste des joueurs",  
-            description="Bah c'est la liste des joueurs quoi", 
+            title="Liste des joueurs",
+            description="Bah c'est la liste des joueurs quoi",
             color=0xFF5733,
             type='rich'
         )
@@ -290,13 +290,13 @@ class Joueurs(commands.Cog):
             embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
         await self.bot.get_channel(943503741959700501).send(embed=embed)
         if len(listejoueurs)>24:
-            embed=discord.Embed( 
+            embed=discord.Embed(
             color=0xFF5733,
             type='rich'
             )
             for j in listejoueurs[24:]:
                 embed.add_field(name=j.affiche_title_embed(), value=j.affiche_value_embed(), inline=True)
-        
+
             await self.bot.get_channel(943503741959700501).send(embed=embed)
 
     @commands.command(name='tierlist', aliases=['tl'])
@@ -307,7 +307,7 @@ class Joueurs(commands.Cog):
             os.mkdir('generated_images')
 
         font_sizes = {
-            1 : 60, 2 : 60, 3 : 55, 4 : 45, 5 : 36, 6 : 30, 
+            1 : 60, 2 : 60, 3 : 55, 4 : 45, 5 : 36, 6 : 30,
             7 : 26, 8 : 23, 9 : 20, 10 : 18, 11 : 16, 12 : 14
         }
         colors = {'m' : (0, 179, 255), 's' : (228, 180, 0)}
@@ -323,7 +323,7 @@ class Joueurs(commands.Cog):
         template_im = Image.fromarray(template_array)
 
         template_im = template_im.convert('RGB')
-    
+
         # Delete all images before creating new ones
         for f in os.listdir('generated_images'):
             os.remove('generated_images/' + f)
@@ -332,7 +332,7 @@ class Joueurs(commands.Cog):
             template_copy = copy(template_im)
 
             d = ImageDraw.Draw(template_copy)
-            
+
             if mode=='pseudo':
                 text = joueur.pseudo
             elif mode=='alias':
@@ -342,7 +342,7 @@ class Joueurs(commands.Cog):
             d.text((10, center), text, fill=colors[joueur.statut.lower()], font = my_font)
 
             template_copy.save('generated_images/' + joueur.pseudo + '.png')
-    
+
         await ctx.send('TL générée :+1:')
 
     @commands.command(name='alias')
@@ -350,7 +350,7 @@ class Joueurs(commands.Cog):
         if len(args)==0:
             table = [['N°', 'Pseudo', 'Alias']]
             for i, joueur in enumerate(listejoueurs):
-                liste_temp = [i] 
+                liste_temp = [i]
                 liste_temp += [joueur.pseudo, joueur.alias]
                 table.append(liste_temp)
             output = tabulate(table, headers='firstrow', tablefmt='simple')
@@ -371,7 +371,7 @@ class Joueurs(commands.Cog):
         if len(ind)>1:
             await ctx.send('Trop de joueurs correspondent à cet alias ({0}). Essayez un autre.'.format(args[0]), delete_after=20)
             return
-        else: 
+        else:
             ind = ind[0]
             joueur = listejoueurs[ind]
             for alias in args[1:]:
@@ -380,7 +380,7 @@ class Joueurs(commands.Cog):
             with open(listejoueurs_filename, 'wb') as f:
                 pickle.dump(listejoueurs, f)
             await ctx.send('Alias ajoutés.', delete_after=20)
-        
+
     @commands.command(name='alias-')
     async def aliasm(self, ctx, alias, *aliases):
         ind = alias_to_ind(alias)
@@ -388,7 +388,7 @@ class Joueurs(commands.Cog):
         if len(ind) == 0:
             await ctx.send('Aucun joueur trouvé.', delete_after=20)
             return
-        
+
         assert len(ind) == 1
         joueur = listejoueurs[ind[0]]
 
@@ -410,9 +410,9 @@ class Joueurs(commands.Cog):
 
 
 
-    # --------------------- #
-    #         TASKS         #
-    # --------------------- #
+    #########
+    # TASKS #
+    #########
 
     @tasks.loop(hours=24)
     async def affiche_anniversaires(self):
@@ -443,7 +443,7 @@ class Joueurs(commands.Cog):
 
         if listejoueurs_anniv == []:
             return
-        
+
         output = ':birthday: Joyeux anniversaire'
         for joueur in listejoueurs_anniv:
             age = today.year - joueur.anniv.year
@@ -452,11 +452,11 @@ class Joueurs(commands.Cog):
             else:
                 designe = joueur.pseudo
             output += '\n{0} ({1})'.format(designe, age)
-        
+
         await chan_annonces.send(output)
         return
 
-    
+
     @affiche_anniversaires.before_loop
     async def affiche_anniversaires_before_loop(self):
         await self.bot.wait_until_ready()

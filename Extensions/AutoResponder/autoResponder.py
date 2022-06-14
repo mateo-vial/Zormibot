@@ -41,7 +41,7 @@ class MyCog(commands.Cog):
         # Feur
         if toggles['feur'] and random.randrange(20) == 0 and ''.join(c for c in message.content if c.isalpha()).lower().endswith('quoi'):
             await message.channel.send(file=discord.File('Assets/feur/' + random.choice(os.listdir('feur'))), delete_after=10)
-        
-        
+
+
 def setup(bot):
-    bot.add_cog(MyCog(bot)) 
+    bot.add_cog(MyCog(bot))

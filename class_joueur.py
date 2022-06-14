@@ -7,9 +7,9 @@ class Joueur():
 
         self.draps = draps # list of strings
 
-        if pseudo != '/': 
+        if pseudo != '/':
             self.pseudo = pseudo
-        else: 
+        else:
             self.pseudo = prenom
 
         # Alias
@@ -44,7 +44,7 @@ class Joueur():
 
         # écriture des drapeaux
         output += ' '.join([':flag_{0}:'.format(drap) for drap in self.draps]) + ' '
-        
+
         # écriture pseudo et prénom
         if self.pseudo != self.prenom:
             output += self.pseudo+'/'
@@ -62,7 +62,7 @@ class Joueur():
             sep = '-'
             # output += 'FC : '+ prefix + self.fc[0:4] + sep + self.fc[4:8] + sep + self.fc[8:12]
             output += 'FC : ' + prefix_fc + sep.join([self.fc[0:4], self.fc[4:8], self.fc[8:12]])
-            output += '\n' 
+            output += '\n'
 
         # écriture Anniv
         if self.anniv != None:
@@ -94,8 +94,8 @@ class Joueur():
 
         # Symbole stagiaire/membre
         emojidict = {
-            'm' : ':blue_circle:', 
-            's' : ':yellow_circle:', 
+            'm' : ':blue_circle:',
+            's' : ':yellow_circle:',
             'r': ':orange_circle:'
         }
         output += emojidict[self.statut.lower()] + '  ' #espace insecable
@@ -116,7 +116,7 @@ class Joueur():
         #   écriture twitter
         if self.twitter != None:
             output += 'Twitter : ``@{0}``\n'.format(self.twitter) #espace insecable
-        
+
         output += '```'
         # écriture FC
         if self.fc != None: # en principe c jamais none...
@@ -140,14 +140,14 @@ class Joueur():
             else:
                 output += self.num
             output += '\n'
-        
+
         # écriture Ex-team
         sep = ', '
         output += 'Ex-team MK8D : ' #insecable
         output += sep.join(self.exteams)
 
         output += '```'
-    
+
         return output
 
     def liste_affiche(self):
@@ -157,7 +157,7 @@ class Joueur():
             at_twitter = '@'+self.twitter
         except:
             at_twitter = None
-        
+
         if self.pseudo != self.prenom:
             pseud_temp = self.pseudo
         else:
@@ -165,22 +165,17 @@ class Joueur():
 
         return [
             self.statut.upper(),
-            ','.join(self.draps), 
-            pseud_temp, 
-            self.prenom, 
-            at_twitter, 
+            ','.join(self.draps),
+            pseud_temp,
+            self.prenom,
+            at_twitter,
             'SW-'+'-'.join([
                 self.fc[0:4],
                 self.fc[4:8],
                 self.fc[8:12]
-            ]), 
+            ]),
             '/'.join([str(self.anniv.day).zfill(2), str(self.anniv.month).zfill(2), str(self.anniv.year)]),
             self.num,
             ','.join(self.exteams),
         ]
-
-    
-
-        
-
 

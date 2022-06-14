@@ -6,14 +6,13 @@ class autoReact(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        
+
         if message.author.bot:
             return
 
         CHECK_BOX = "\U00002611"
-        X_MARK = "\U0000274C"
         mots_popop = ['kick', 'popop']
-        
+
         mots_zormibot = ['kick', 'zormibot']
         reac_X = [
             '\U0000274c', # cross mark
@@ -30,7 +29,7 @@ class autoReact(commands.Cog):
 
         if all(mot in message.content.lower().split() for mot in mots_popop):
             await message.add_reaction(CHECK_BOX)
-        
+
         if all(mot in message.content.lower().split() for mot in mots_zormibot):
             for reac in reac_X:
                 await message.add_reaction(reac)
