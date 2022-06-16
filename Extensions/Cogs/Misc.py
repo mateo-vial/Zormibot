@@ -27,10 +27,6 @@ class Misc(commands.Cog):
     async def miaule(self, ctx):
         await ctx.send('Miaou :cat:')
 
-    @commands.command(name='stoptwitter')
-    async def stoptwitter(self, ctx, *args):
-        await ctx.send('Bot twitter `@bFlo17` désactivé.', delete_after=20)
-
     @commands.command(name='teps')
     async def teps(self, ctx):
         await ctx.send(
