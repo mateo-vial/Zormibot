@@ -19,6 +19,10 @@ class Misc(commands.Cog):
     async def hello(self, ctx):
         await ctx.send('Hello world!')
 
+    @commands.command(name='aboie')
+    async def aboie(self, ctx):
+        await ctx.send('Ouaf :dog:')
+
     @commands.command(name='miaule')
     async def miaule(self, ctx):
         await ctx.send('Miaou :cat:')
