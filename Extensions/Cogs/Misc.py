@@ -27,6 +27,10 @@ class Misc(commands.Cog):
     async def miaule(self, ctx):
         await ctx.send('Miaou :cat:')
 
+    @commands.command(name='say')
+    async def say(self, ctx, *args):
+        await ctx.send(' '.join(args))
+
     @commands.command(name='teps')
     async def teps(self, ctx):
         await ctx.send(
