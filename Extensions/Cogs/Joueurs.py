@@ -1,4 +1,3 @@
-from wsgiref.handlers import IISCGIHandler
 import discord
 from discord.ext import commands
 from discord.ext import tasks
@@ -14,6 +13,10 @@ from PIL import Image, ImageDraw, ImageFont
 from main import adminlist, chancmdlist, listejoueurs, listejoueurs_filename
 from class_joueur import Joueur as Joueur
 
+def is_admin():
+    def predicate(ctx):
+        return ctx.message.author.id in adminlist
+    return commands.check(predicate)
 
 def alias_to_ind(alias):
     """
@@ -35,10 +38,9 @@ class Joueurs(commands.Cog):
     #        COMMANDS        #
     # ---------------------- #
 
+    @is_admin()
     @commands.command(name='ajouterjoueur', aliases=['aj'])
     async def ajouterjoueur(self, ctx, statut, draps, pseudo, prenom, twitter, fc, anniv, num, exteams, id_):
-        assert ctx.author.id in adminlist
-        assert ctx.channel.id in chancmdlist
         try:
             listejoueurs.append(Joueur(
                 statut = statut.lower(), #'M' ou 'S' ou 'm' ou 's'  ou 'R' ou 'r'
@@ -64,9 +66,9 @@ class Joueurs(commands.Cog):
         except:
             await ctx.send('Usage incorrect', delete_after=10)
 
+    @is_admin()
     @commands.command(name='supprimerjoueur', aliases=['sj'])
     async def supprimerjoueur2(self, ctx, alias):
-        assert ctx.author.id in adminlist
         try:
             ind_a_supprimer = alias_to_ind(alias)[0]
 
@@ -113,10 +115,10 @@ class Joueurs(commands.Cog):
                 pass
             await ctx.send(output)
 
+    @is_admin()
     @commands.command(name='swapjoueurs', aliases=['swapj'])
     async def swapjoueurs(self, ctx, i, j):
         assert ctx.channel.id in chancmdlist
-        assert ctx.author.id in adminlist
         try:
             i, j = int(i), int(j)
             listejoueurs[i], listejoueurs[j] = listejoueurs[j], listejoueurs[i]
@@ -128,9 +130,9 @@ class Joueurs(commands.Cog):
         except:
             await ctx.send('Usgae incorrect.', delete_after=10)
 
+    @is_admin()
     @commands.command(name='deplacejoueur', aliases=['dj'])
     async def deplacejoueur(self, ctx, alias, j):
-        assert ctx.author.id in adminlist
         assert ctx.channel.id in chancmdlist
         try:
             i, j = alias_to_ind(alias)[0], int(j)
@@ -271,10 +273,9 @@ class Joueurs(commands.Cog):
         await ctx.send('```{0}```'.format(output), delete_after=30)
 
 
+    @is_admin()
     @commands.command(name='infosjoueurs', aliases=['ij'])
     async def infosjoueurs(self, ctx):
-        # 943503741959700501
-        assert ctx.author.id in adminlist
 
         # Delete all messages in channel
         await self.bot.get_channel(943503741959700501).purge()
@@ -299,10 +300,9 @@ class Joueurs(commands.Cog):
 
             await self.bot.get_channel(943503741959700501).send(embed=embed)
 
+    @is_admin()
     @commands.command(name='tierlist', aliases=['tl'])
     async def tierlist(self, ctx, mode='pseudo'):
-        assert ctx.author.id in adminlist
-
         if not os.path.isdir('generated_images'):
             os.mkdir('generated_images')
 
