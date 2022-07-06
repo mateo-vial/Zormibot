@@ -73,6 +73,10 @@ with open('text_files/chancmd.txt', mode='r', encoding='utf-8') as f:
 with open('text_files/token.txt', 'r') as f:
     TOKEN = f.read()
     # token.txt
+with open('text_files/tl_images_path.txt', mode='r', encoding='utf-8') as f:
+    tl_images_path = f.read().splitlines()
+    print(tl_images_path)
+    # edit tl_images_path.txt to edit the path of tl images (should be google drive)
 
 
 

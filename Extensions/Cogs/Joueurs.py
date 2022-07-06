@@ -10,7 +10,7 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from main import adminlist, chancmdlist, listejoueurs, listejoueurs_filename
+from main import adminlist, chancmdlist, listejoueurs, listejoueurs_filename, tl_images_path
 from class_joueur import Joueur as Joueur
 
 def is_admin():
@@ -331,6 +331,8 @@ class Joueurs(commands.Cog):
         # Delete all images before creating new ones
         for f in os.listdir('generated_images'):
             os.remove('generated_images/' + f)
+        for f in os.listdir(tl_images_path[0]):
+            os.remove(tl_images_path[0] + f)
 
         for joueur in listejoueurs:
             template_copy = copy(template_im)
@@ -346,8 +348,9 @@ class Joueurs(commands.Cog):
             d.text((10, center), text, fill=colors[joueur.statut.lower()], font = my_font)
 
             template_copy.save('generated_images/' + joueur.pseudo + '.png')
+            template_copy.save(tl_images_path[0] + joueur.pseudo + '.png')
 
-        await ctx.send('TL générée :+1:')
+        await ctx.send('TL générée :+1:\n' + tl_images_path[1])
 
     @commands.command(name='alias')
     async def alias(self, ctx, *args):
